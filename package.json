@@ -1,0 +1,19 @@
+{
+  "name": "cs546-project",
+  "version": "1.0.0",
+  "description": "Final Project for CS 546",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bryangardner/cs546-project.git"
+  },
+  "author": "Bryan Gardner, Clara Ramos, Jordana Approvato, Kirk Visser, Tessie Urtubia",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bryangardner/cs546-project/issues"
+  },
+  "homepage": "https://github.com/bryangardner/cs546-project#readme"
+}
