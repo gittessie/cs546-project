@@ -29,7 +29,7 @@ let exportedMethods = {
     getUserByEmail(email) {
         if (!email) return Promise.reject("Please supply an email address");
         return users().then((userCollection) => {
-            return userCollection.findOne({ "profile.email": email })
+            return userCollection.findOne({ "userProfile.email": email })
                 .then((user) => {
                     if (!user) {
                         return Promise.reject(`User with email ${email} does not exist`);
@@ -44,7 +44,7 @@ let exportedMethods = {
     getUserByUsername(username) {
         if (!username) return Promise.reject("Please supply a username");
         return users().then((userCollection) => {
-            return userCollection.findOne({ "profile.username": username })
+            return userCollection.findOne({ "userProfile.username": username })
                 .then((user) => {
                     if (!user) {
                         return Promise.reject(`User with username ${username} does not exist`);
@@ -106,7 +106,7 @@ let exportedMethods = {
                     let newUser = {
                         _id: uuid.v4(),
                         hashedPassword: hashedPassword,
-                        profile: {
+                        userProfile: {
                             username: username,
                             firstName: firstName,
                             lastName: lastName,
