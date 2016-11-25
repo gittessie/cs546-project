@@ -1,3 +1,5 @@
+const users = require('./users');
+
 module.exports = {
-    // TODO: add data exports here
+    users: users
 }
