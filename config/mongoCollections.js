@@ -14,5 +14,6 @@ let getCollectionFn = (collection) => {
 }
 
 module.exports = {
-    // TODO: add collection exports here
+    users: getCollectionFn("users"),
+    items: getCollectionFn("items")
 }
