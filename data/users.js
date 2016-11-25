@@ -26,6 +26,21 @@ let exportedMethods = {
         })
     },
 
+    getUserByProfileId(id) {
+        if (!id) return Promise.reject("Please supply an id");
+        return users().then((userCollection) => {
+            return userCollection.findOne({ "userProfile._id": id })
+                .then((user) => {
+                    if (!user) {
+                        return Promise.reject(`User with user profile ${id} not found`);
+                    }
+                    else {
+                        return user;
+                    }
+                })
+        })
+    },
+
     getUserByEmail(email) {
         if (!email) return Promise.reject("Please supply an email address");
         return users().then((userCollection) => {
@@ -127,18 +142,42 @@ let exportedMethods = {
         })
     },
 
+    updateUser(id, updatedItem) {
+        return users().then((userCollection) => {
+            let updatedUserData = {};
+
+            if (updatedItem.hashedPassword) {
+                updatedUserData.hashedPassword = updatedItem.hashedPassword;
+            }
+            if (updatedItem.userProfile) {
+                updatedUserData.userProfile = updatedItem.userProfile;
+            }
+
+            let updatedCommand = {
+                $set: updatedUserData
+            }
+
+            return userCollection.updateOne({
+                _id: id
+            }, updatedCommand)
+                .then((result) => {
+                    return this.getUserById(id);
+                })
+        })
+    },
+
     deleteUser(id) {
         if (!id) return Promise.reject("No id specified");
         return users().then((userCollection) => {
             return userCollection.removeOne({ _id: id })
-            .then((deletionInfo) => {
-                if (deletionInfo.deletedCount === 0) {
-                    return Promise.reject(`Could not delete user with id of ${id}`);
-                }
-                else {
-                    return Promise.resolve(`Deleted user with id of ${id}`)
-                }
-            })
+                .then((deletionInfo) => {
+                    if (deletionInfo.deletedCount === 0) {
+                        return Promise.reject(`Could not delete user with id of ${id}`);
+                    }
+                    else {
+                        return Promise.resolve(`Deleted user with id of ${id}`)
+                    }
+                })
         })
     }
 }
