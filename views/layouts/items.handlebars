@@ -1,0 +1,38 @@
+<div class="row">
+    <div class="col-sm-12 col-md-6"> 
+        <h2>{{ pageTitle }}</h2>
+        {{#if itemsArray}}
+        	{{#each itemsArray}}      
+        		{{> item_item }}
+        	{{/each}}
+        {{else if itemProfile}}
+        	<p>Posted by {{itemProfile.userProfile.username}}</p>
+            <p>Categories: 
+                {{#each itemProfile.categories}}
+                    {{this}}, 
+                {{/each}}
+            </p>
+            <p>
+                Minimum Days: {{itemProfile.time.minDays}} </p>
+            <p> Maximum Days: {{itemProfile.time.maxDays}} </p>
+            <p> Zip Code: {{itemProfile.geographicalArea.zip}} </p>
+            <p> Radius: {{itemProfile.geographicalArea.radius}}</p>
+            <p>
+                Status: {{itemProfile.status}}
+            </p>
+            <p>
+                Price: ${{itemProfile.price}}</p>
+            <p>
+                Payment Method: {{itemProfile.paymentMethod}}
+            </p>
+            <p>Description: {{itemProfile.description}}</p>
+            <p>ID: {{itemProfile._id}}</p>
+        	<br>
+        	<input type="button" onclick="location.href='/items';" value="List of All Items" />
+        {{/if}}
+        {{#if button}}
+            <br>
+            <input type="button" onclick="location.href='/items';" value="List of All Items" />
+        {{/if}}
+    </div>
+</div>
