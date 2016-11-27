@@ -142,24 +142,63 @@ let exportedMethods = {
         })
     },
 
-    updateUser(id, updatedItem) {
+    updateUserProfile(id, updatedItem) {
         return users().then((userCollection) => {
-            let updatedUserData = {};
+            return this.getUserById(id)
+                .then((user) => {
+                    let updatedUserData = { userProfile: {} };
 
-            if (updatedItem.hashedPassword) {
-                updatedUserData.hashedPassword = updatedItem.hashedPassword;
-            }
-            if (updatedItem.userProfile) {
-                updatedUserData.userProfile = updatedItem.userProfile;
-            }
+                    if (updatedItem.firstName) {
+                        updatedUserData.userProfile.firstName = updatedItem.firstName;
+                    }
+                    else {
+                        updatedUserData.userProfile.firstName = user.userProfile.firstName
+                    }
+                    if (updatedItem.lastName) {
+                        updatedUserData.userProfile.lastName = updatedItem.lastName;
+                    }
+                    else {
+                        updatedUserData.userProfile.lastName = user.userProfile.lastName;
+                    }
+                    if (updatedItem.email) {
+                        updatedUserData.userProfile.email = updatedItem.email;
+                    }
+                    else {
+                        updatedUserData.userProfile.email = user.userProfile.email;
+                    }
+                    if (updatedItem.zip) {
+                        updatedUserData.userProfile.zip = updatedItem.zip;
+                    }
+                    else {
+                        updatedUserData.userProfile.zip = user.userProfile.zip;
+                    }
+                    if (updatedItem.phone) {
+                        updatedUserData.userProfile.phone = updatedItem.phone;
+                    }
+                    else {
+                        updatedUserData.userProfile.phome = user.userProfile.phone;
+                    }
 
-            let updatedCommand = {
-                $set: updatedUserData
-            }
+                    updatedUserData.userProfile._id = user.userProfile._id;
 
+                    let updateCommand = {
+                        $set: updatedUserData
+                    }
+                    return userCollection.updateOne({
+                        _id: id
+                    }, updateCommand)
+                        .then((result) => {
+                            return this.getUserById(id);
+                        })
+                })
+        })
+    },
+
+    updateUserPassword(id, newPassword) {
+        return users().then((userCollection) => {
             return userCollection.updateOne({
                 _id: id
-            }, updatedCommand)
+            }, { $set: { hashedPassword: newPassword } })
                 .then((result) => {
                     return this.getUserById(id);
                 })
