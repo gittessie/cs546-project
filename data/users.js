@@ -143,7 +143,6 @@ let exportedMethods = {
     },
 
     updateUserProfile(id, updatedItem) {
-        console.log(updatedItem);
         return users().then((userCollection) => {
             return this.getUserByProfileId(id)
                 .then((user) => {
