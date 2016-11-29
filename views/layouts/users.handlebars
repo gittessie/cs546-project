@@ -7,8 +7,7 @@
         	{{/each}}
         	<br>
         	<input type="button" onclick="location.href='/newaccount';" value="New Account" />
-        {{/if}}
-        {{#if profile}}
+        {{else if profile}}
         	<p>First Name: {{profile.firstName}}</p>
         	<p>Last Name: {{profile.lastName}}</p>
         	<p>Email: {{profile.email}}</p>
@@ -16,12 +15,12 @@
         	<p>Zip Code: {{profile.zip}}</p>
         	<br>
         	<input type="button" onclick="location.href='/users';" value="List of All Users" />
-        {{/if}}
-        {{#if itemsArray}}
+        {{else if itemsArray}}
         	{{#each itemsArray}}
         		{{> item_item}}
         	{{/each}}
         	<br>
+            <input type="button" onclick="location.href='/items/new/{{id}}';" value="Add an Item" />
         	<input type="button" onclick="location.href='/users';" value="List of All Users" />
         {{/if}}
     </div>

@@ -41,7 +41,7 @@ router.get("/:id/items", (req, res) => {
 	usersData.getUserById(req.params.id).then((thisUser) => {
 		let userProfileId = thisUser.userProfile._id;
 		itemsData.getItemsForUserProfileId(userProfileId).then((itemsArray) => {
-			res.render("layouts/users", { pageTitle: thisUser.userProfile.username + "'s Items", itemsArray: itemsArray });
+			res.render("layouts/users", { pageTitle: thisUser.userProfile.username + "'s Items", itemsArray: itemsArray, id: req.params.id });
 		});
 	}).catch((e) => {
 		res.status(500).json({ error: e });
@@ -52,7 +52,46 @@ router.get("/username/:username/items", (req, res) => {
 	usersData.getUserByUsername(req.params.username).then((thisUser) => {
 		let userProfileId = thisUser.userProfile._id;
 		itemsData.getItemsForUserProfileId(userProfileId).then((itemsArray) => {
-			res.render("layouts/users", { pageTitle: req.params.username + "'s Items", itemsArray: itemsArray });
+			res.render("layouts/users", { pageTitle: req.params.username + "'s Items", itemsArray: itemsArray, id: thisUser._id });
+		});
+	}).catch((e) => {
+		res.status(500).json({ error: e });
+	});
+});
+
+router.put("/:id", (req, res) => {
+	let updatedProfile = req.body;
+	usersData.updateUser(req.params.id, updatedProfile).then((newUserProfile) => {
+		res.render("layouts/users", { pageTitle: thisUser.userProfile.username + "'s Profile", profile: newUserProfile });
+	}).catch(() => {
+		res.status(500).json({ error: "Unable to update user with id " + req.params.id });
+	});
+});
+
+router.put("/username/:username", (req, res) => {
+	let updatedProfile = req.body;
+	usersData.getUserByUsername(req.params.username).then((thisUser) => {
+		let userId = thisUser._id;
+		usersData.updateUser(userId, updatedProfile).then((newUserProfile) => {
+			res.render("layouts/users", { pageTitle: req.params.username + "'s Profile", profile: newUserProfile });
+		});
+	}).catch((e) => {
+		res.status(500).json({ error: e });
+	});
+});
+
+router.delete("/:id", (req, res) => {
+	usersData.deleteUser(req.params.id).then(() => {
+		res.sendStatus(200);
+	}).catch((e) => {
+		res.status(500).json({ error: e });
+	});
+});
+
+router.delete("/username/:username", (req, res) => {
+	usersData.getUserByUsername(req.params.username).then((thisUser) => {
+		usersData.deleteUser(thisUser._id).then(() => {
+			res.sendStatus(200);
 		});
 	}).catch((e) => {
 		res.status(500).json({ error: e });
