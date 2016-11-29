@@ -143,8 +143,9 @@ let exportedMethods = {
     },
 
     updateUserProfile(id, updatedItem) {
+        console.log(updatedItem);
         return users().then((userCollection) => {
-            return this.getUserById(id)
+            return this.getUserByProfileId(id)
                 .then((user) => {
                     let updatedUserData = { userProfile: {} };
 
@@ -185,10 +186,10 @@ let exportedMethods = {
                         $set: updatedUserData
                     }
                     return userCollection.updateOne({
-                        _id: id
+                        _id: user._id
                     }, updateCommand)
                         .then((result) => {
-                            return this.getUserById(id);
+                            return this.getUserByProfileId(id);
                         })
                 })
         })
