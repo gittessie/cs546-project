@@ -61,7 +61,7 @@ router.get("/username/:username/items", (req, res) => {
 
 router.put("/:id", (req, res) => {
 	let updatedProfile = req.body;
-	usersData.updateUser(req.params.id, updatedProfile).then((newUserProfile) => {
+	usersData.updateUserProfile(req.params.id, updatedProfile).then((newUserProfile) => {
 		res.render("layouts/users", { pageTitle: thisUser.userProfile.username + "'s Profile", profile: newUserProfile });
 	}).catch(() => {
 		res.status(500).json({ error: "Unable to update user with id " + req.params.id });
@@ -72,7 +72,7 @@ router.put("/username/:username", (req, res) => {
 	let updatedProfile = req.body;
 	usersData.getUserByUsername(req.params.username).then((thisUser) => {
 		let userId = thisUser._id;
-		usersData.updateUser(userId, updatedProfile).then((newUserProfile) => {
+		usersData.updateUserProfile(userId, updatedProfile).then((newUserProfile) => {
 			res.render("layouts/users", { pageTitle: req.params.username + "'s Profile", profile: newUserProfile });
 		});
 	}).catch((e) => {
