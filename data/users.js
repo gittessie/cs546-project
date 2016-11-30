@@ -176,7 +176,7 @@ let exportedMethods = {
                         updatedUserData.userProfile.phone = updatedItem.phone;
                     }
                     else {
-                        updatedUserData.userProfile.phome = user.userProfile.phone;
+                        updatedUserData.userProfile.phone = user.userProfile.phone;
                     }
 
                     updatedUserData.userProfile._id = user.userProfile._id;
