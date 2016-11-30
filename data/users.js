@@ -180,6 +180,7 @@ let exportedMethods = {
                     }
 
                     updatedUserData.userProfile._id = user.userProfile._id;
+                    updatedUserData.userProfile.username = user.userProfile.username;
 
                     let updateCommand = {
                         $set: updatedUserData
