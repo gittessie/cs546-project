@@ -144,7 +144,7 @@ let exportedMethods = {
 
     updateUserProfile(id, updatedItem) {
         return users().then((userCollection) => {
-            return this.getUserById(id)
+            return this.getUserByProfileId(id)
                 .then((user) => {
                     let updatedUserData = { userProfile: {} };
 
@@ -176,19 +176,20 @@ let exportedMethods = {
                         updatedUserData.userProfile.phone = updatedItem.phone;
                     }
                     else {
-                        updatedUserData.userProfile.phome = user.userProfile.phone;
+                        updatedUserData.userProfile.phone = user.userProfile.phone;
                     }
 
                     updatedUserData.userProfile._id = user.userProfile._id;
+                    updatedUserData.userProfile.username = user.userProfile.username;
 
                     let updateCommand = {
                         $set: updatedUserData
                     }
                     return userCollection.updateOne({
-                        _id: id
+                        _id: user._id
                     }, updateCommand)
                         .then((result) => {
-                            return this.getUserById(id);
+                            return this.getUserByProfileId(id);
                         })
                 })
         })
