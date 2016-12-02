@@ -61,22 +61,26 @@ router.get("/username/:username/items", (req, res) => {
 
 router.put("/:id", (req, res) => {
 	let updatedProfile = req.body;
-	usersData.updateUser(req.params.id, updatedProfile).then((newUserProfile) => {
-		res.render("layouts/users", { pageTitle: thisUser.userProfile.username + "'s Profile", profile: newUserProfile });
-	}).catch(() => {
+	usersData.getUserById(req.params.id).then((thisUser) => {
+		let profileID = thisUser.userProfile._id;
+		usersData.updateUserProfile(profileID, updatedProfile.userProfile).then((newUserProfile) => {
+			res.render("layouts/users", { pageTitle: thisUser.userProfile.username + "'s Profile", profile: newUserProfile.userProfile });
+		});
+	}).catch((e) => {
 		res.status(500).json({ error: "Unable to update user with id " + req.params.id });
 	});
+	
 });
 
 router.put("/username/:username", (req, res) => {
 	let updatedProfile = req.body;
 	usersData.getUserByUsername(req.params.username).then((thisUser) => {
-		let userId = thisUser._id;
-		usersData.updateUser(userId, updatedProfile).then((newUserProfile) => {
-			res.render("layouts/users", { pageTitle: req.params.username + "'s Profile", profile: newUserProfile });
+		let profileId = thisUser.userProfile._id;
+		usersData.updateUserProfile(profileId, updatedProfile.userProfile).then((newUserProfile) => {
+			res.render("layouts/users", { pageTitle: req.params.username + "'s Profile", profile: newUserProfile.userProfile });
 		});
 	}).catch((e) => {
-		res.status(500).json({ error: e });
+		res.status(500).json({ error: "Unable to update user with username " + req.params.username });
 	});
 });
 

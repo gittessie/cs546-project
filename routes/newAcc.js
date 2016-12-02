@@ -18,7 +18,7 @@ router.post("/", (req, res) => {
 
 	usersData.addUser(username, password, firstName, lastName, email, phoneNum, zipCode).then(() => {
 		usersData.getUserByUsername(username).then((thisProfile) => {
-			res.render("layouts/users", { pageTitle: username + "'s Profile", profile: thisProfile });
+			res.render("layouts/users", { pageTitle: username + "'s Profile", profile: thisProfile.userProfile });
 		});
 	}).catch((e) => {
 		res.render("layouts/form", { pageTitle: "Create a new account!",  username: username, password: password, firstName: firstName, lastName: lastName, email: email, phoneNum: phoneNum, zipCode: zipCode, error: e });

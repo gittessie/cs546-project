@@ -121,28 +121,33 @@ router.get("/new/:userid", (req, res) => {
 
 router.post("/new/:userid", (req, res) => {
 	let name = req.body.name;
-	let categories = req.body.categories;
+	let categories = req.body.categories.match(/[^,]+/g);
+	console.log(categories);
 	let description = req.body.description;
-	let price = req.body.price;
+	let price = parseInt(req.body.price);
 	let payment = req.body.paymentMethod;
 	let geo = {
 		zip: req.body.zip,
-		radius: req.body.radius
+		radius: parseInt(req.body.radius)
 	};
 	let imagePath = req.body.imagePath;
 	let time = {
-		minDays: req.body.minDays,
-		maxDays: req.body.maxDays
+		minDays: parseInt(req.body.minDays),
+		maxDays: parseInt(req.body.maxDays)
 	};
 	let status = "available";
 
-	usersData.getUserById(req.params.id).then((thisUser) => {
+	usersData.getUserById(req.params.userid).then((thisUser) => {
 		let userProfile = thisUser.userProfile;
-		itemsData.addItem(userProfile, name, categories, description, price, payment, geo, imagePath, time, status).then((newItem) => {
-			res.render("layouts/items", { pageTitle: name, itemProfile: newItem })
-		});
+		try {
+			itemsData.addItem(userProfile, name, categories, description, price, payment, geo, imagePath, time, status).then((newItem) => {
+				res.render("layouts/items", { pageTitle: name, itemProfile: newItem })
+			});
+		} catch (e) {
+			res.render("layouts/form_item", { pageTitle: "ERROR!", error: e });
+		}
 	}).catch((e) => {
-		res.render("layouts/form_item", { pageTitle: "Create a new item!", name: name, categories: categories, description: description, price: price, payment: payment, geo: geo, imagePath: imagePath, time: time, status: status });
+		res.render("layouts/form_item", { pageTitle: "Create a new item!", name: name, categories: categories, description: description, price: price, payment: payment, zip: geo.zip, radius: geo.radius, imagePath: imagePath, minDays: time.minDays, maxDays: time.maxDays, error: e });
 		return;
 	});
 });

@@ -152,7 +152,7 @@ let exportedMethods = {
                         updatedUserData.userProfile.firstName = updatedItem.firstName;
                     }
                     else {
-                        updatedUserData.userProfile.firstName = user.userProfile.firstName
+                        updatedUserData.userProfile.firstName = user.userProfile.firstName;
                     }
                     if (updatedItem.lastName) {
                         updatedUserData.userProfile.lastName = updatedItem.lastName;
