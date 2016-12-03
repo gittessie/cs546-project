@@ -6,6 +6,35 @@
     <link rel="stylesheet" href="/public/css/main.css">
 </head>
 <body>
+    <nav>
+        <img src="public/images/header.png">
+        <ul class="nav">
+            <li id="home">
+                <a href="/"><img src="public/images/logo.png"></a>
+            </li>
+            <li id="Categories">
+                <a href="#">Categories</a>
+                <ul class="subnav">
+                    <li><a href="#">Electronics</a></li>
+                    <li><a href="#">Home Goods</a></li>
+                    <li><a href="#">Etc</a></li>
+                    <li><a href="#">Etc</a></li>
+                </ul>
+            </li>
+            <li id="search">
+                <form action="" method="get">
+                    <input type="text" name="search_text" id="search_text" placeholder="Search and Start Borrowing"/>
+                    <input type="button" name="search_button" id="search_button" placeholder="Go"></a>
+                </form>
+            </li>
+            <li id="Advanced">
+                <a href="/items/advanced">Advanced Search</a>
+            </li>
+            <li id="Account">
+                <a href="/users/myidnum">My Account</a>
+            </li>
+        </ul>
+    </nav>
     <main>
         {{{body}}}
     </main>

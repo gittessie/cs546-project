@@ -12,6 +12,62 @@ router.get("/", (req, res) => {
 	});
 });
 
+router.get('/advanced', (req, res) => {
+	res.render('layouts/advanced');
+});
+
+router.post('/advanced', function(req, res){
+	const keywords = req.body.keywords;
+	const category = req.body.category;
+	const price1 = req.body.price1;
+	const price2 = req.body.price2;
+	const payment = req.body.paymentmethod;
+	const zipcode = req.body.zipcode;
+	const time = req.body.time;
+	const availability = req.body.availability;
+
+	//advanced search with no fields filled in
+	if(!keywords && !category && !price1 && !price2 && !payment && !zipcode && !time && !availability){
+		res.redirect('/items');
+	}
+	//advanced search with only category field filled
+	if(!keywords && category && !price1 && !price2 && !payment && !zipcode && !time && !availability){
+		res.redirect('/items/categories/'+category);
+	}
+	//advanced search with min price filled in
+	if(!keywords && !category && price1 && !price2 && !payment && !zipcode && !time && !availability){
+		res.redirect('/items/price/'+price1+"/100000");
+	}
+	//advanced search with max price filled in
+	if(!keywords && !category && !price1 && price2 && !payment && !zipcode && !time && !availability){
+		res.redirect('/items/price/0/'+price2);
+	}
+	//advanced search with min & max price filled in
+	if(!keywords && !category && price1 && price2 && !payment && !zipcode && !time && !availability){
+		res.redirect('/items/price/'+price1 + "/"+price2);
+	}
+	//advanced search by payment method
+	if(!keywords && !category && !price1 && !price2 && payment && !zipcode && !time && !availability){
+		res.redirect('/items'); //TODO
+	}
+	//advanced search by zip
+	if(!keywords && !category && !price1 && !price2 && !payment && zipcode && !time && !availability){
+		res.redirect('/items/zip/'+zipcode);
+	}
+	//advanced search by time
+	if(!keywords && !category && !price1 && !price2 && !payment && !zipcode && time && !availability){
+		res.redirect('/items/time/'+time);
+	}
+	//advanced search by availability
+	if(!keywords && !category && !price1 && !price2 && !payment && !zipcode && !time && availability){
+		res.redirect('/items/status/'+availability);
+	}
+	//TODO : Combination of search parameters
+	else{
+		res.redirect('/items'); //TODO
+	}
+});
+
 router.get("/:id", (req, res) => {
 	itemsData.getItemById(req.params.id).then((thisItem) => {
 		res.render("layouts/items", { pageTitle: thisItem.name, itemProfile: thisItem });
