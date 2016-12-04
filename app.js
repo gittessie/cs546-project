@@ -4,6 +4,7 @@ let app = express();
 const static = express.static(__dirname + '/public');
 const path = require("path");
 let passport = require("passport");
+const express_session = require("express-session");
 const flash = require('connect-flash');
 
 const configRoutes = require("./routes");
@@ -47,7 +48,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(rewriteUnsupportedBrowserMethods);
 
 app.use(require("cookie-parser")());
-app.use(require("express-session")({ secret: 'secret' }));
+app.use(express_session({
+    secret: 'cs546 final project',
+    resave: true,
+    saveUninitialized: true
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
