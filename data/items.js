@@ -84,8 +84,8 @@ let exportedMethods = {
             if (updatedItem.name) {
                 updatedItemData.name = updatedItem.name;
             }
-            if (updatedItem.categories) {
-                updatedItemData.categories = updatedItem.categories;
+            if (updatedItem.category) {
+                updatedItemData.categories = updatedItem.category;
             }
             if (updatedItem.description) {
                 updatedItemData.description = updatedItem.description;
@@ -141,6 +141,40 @@ let exportedMethods = {
                 .then(() => {
                     return this.getItemById(id);
                 })
+        })
+    },
+
+    advancedSearch(searchProperties) {
+        let validSearchProperties = {};
+        if (searchProperties.username) {
+            validSearchProperties.userProfile.username = searchProperties.username;
+        }
+        if (searchProperties.name) {
+            validSearchProperties.name = searchProperties.name;
+        }
+        if (searchProperties.categories) {
+            validSearchProperties.categories = searchProperties.categories
+        }
+        if (searchProperties.minPrice && searchProperties.maxPrice) {
+            validSearchProperties.price = { $lte: searchProperties.maxPrice, $gte: searchProperties.minPrice }
+        }
+        else if (searchProperties.minPrice) {
+            validSearchProperties.price = { $gte: searchProperties.minPrice };
+        }
+        else if (searchProperties.maxPrice) {
+            validSearchProperties.price = { $lte: searchProperties.maxPrice };
+        }
+        if (searchProperties.paymentMethod) {
+            validSearchProperties.paymentMethod = searchProperties.PaymentMethod;
+        }
+        if (searchProperties.status) {
+            validSearchProperties.status = searchProperties.status;
+        }
+        if (searchProperties.geographicalArea) {
+            validSearchProperties.geographicalArea = searchProperties.geographicalArea;
+        }
+        return items().then((itemsCollection) => {
+            return itemsCollection.find(validSearchProperties).toArray();
         })
     },
 
