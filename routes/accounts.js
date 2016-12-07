@@ -8,7 +8,7 @@ module.exports = function (passport) {
 		res.render("layouts/newAccount", { pageTitle: "Create a new account!" });
 	});
 
-	router.post("/new", (req, res) => {
+	router.post("/new", (req, res, next) => {
 		let username = req.body.username;
 		let password = req.body.password;
 		let firstName = req.body.firstName;
@@ -17,14 +17,30 @@ module.exports = function (passport) {
 		let phoneNum = req.body.phoneNum;
 		let zipCode = req.body.zipCode;
 
-		usersData.addUser(username, password, firstName, lastName, email, phoneNum, zipCode).then(() => {
-			usersData.getUserByUsername(username).then((thisProfile) => {
-				res.render("layouts/users", { pageTitle: username + "'s Profile", profile: thisProfile.userProfile });
-			});
-		}).catch((e) => {
-			res.render("layouts/newAccount", { pageTitle: "Create a new account!", username: username, password: password, firstName: firstName, lastName: lastName, email: email, phoneNum: phoneNum, zipCode: zipCode, error: e });
-			return;
-		});
+		usersData.usernameAvailable(username)
+			.then((usernameAvailable) => {
+				if (usernameAvailable) {
+					usersData.emailAvailable(email)
+						.then((emailAvailable) => {
+							if (emailAvailable) {
+								usersData.addUser(username, password, firstName, lastName, email, phoneNum, zipCode).then(() => {
+									usersData.getUserByUsername(username).then((thisProfile) => {
+										authenticate(passport, req, res)(req, res, next);
+									});
+								}).catch((e) => {
+									res.render("layouts/newAccount", { pageTitle: "Create a new account!", username: username, password: password, firstName: firstName, lastName: lastName, email: email, phoneNum: phoneNum, zipCode: zipCode, error: e });
+									return;
+								});
+							}
+							else {
+								return res.render("layouts/newAccount", { pageTitle: "Create a new account!", username: username, password: password, firstName: firstName, lastName: lastName, email: email, phoneNum: phoneNum, zipCode: zipCode, error: "Email already in use" });
+							}
+						})
+				}
+				else {
+					return res.render("layouts/newAccount", { pageTitle: "Create a new account!", username: username, password: password, firstName: firstName, lastName: lastName, email: email, phoneNum: phoneNum, zipCode: zipCode, error: "Username already exists" });
+				}
+			})
 	});
 
 	router.get("/login", (req, res) => {
@@ -32,21 +48,35 @@ module.exports = function (passport) {
 	})
 
 	router.post("/login", (req, res, next) => {
-		passport.authenticate("local", (err, user, info) => {
-			if (err) {
-				return res.redirect("/");
-			}
-			if (!user) {
-				return res.redirect("/");
-			}
-			req.login(user, (err) => {
-				if (err) {
-					return next(err);
-				}
-				console.log(user);
-				return res.redirect("/users/username/" + user.userProfile.username);
-			})
-		})(req, res, next);
+		authenticate(passport, req, res)(req, res, next);
+	})
+
+	router.get("/logout", (req, res) => {
+		req.logout();
+		res.redirect('/');
 	})
 	return router;
+}
+
+let authenticate = (passport, req, res) => {
+	return passport.authenticate("local", (err, user, info) => {
+		if (err) {
+			return res.render("layouts/login", { error: "Invalid credentials" });
+		}
+		if (!user) {
+			if (!req.body.username && !req.body.password)
+				return res.render("layouts/login", { error: "Missing username and password" });
+			if (!req.body.username)
+				return res.render("layouts/login", { error: "Missing username" });
+			if (!req.body.password)
+				return res.render("layouts/login", { error: "Missing password" });
+			return res.render("layouts/login", { error: "Unknown error, please try again" });
+		}
+		req.login(user, (err) => {
+			if (err) {
+				return next(err);
+			}
+			return res.redirect("/users/username/" + user.userProfile.username);
+		})
+	})
 }
