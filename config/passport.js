@@ -33,11 +33,11 @@ const configPassport = (passport) => {
     ));
 
     passport.serializeUser((user, done) => {
-        done(null, user.profile.username);
+        done(null, user._id);
     })
 
-    passport.deserializeUser((username, done) => {
-        users.getUserByUsername(username)
+    passport.deserializeUser((userId, done) => {
+        users.getUserById(userId)
             .then((user) => {
                 done(null, user);
             })
@@ -46,3 +46,5 @@ const configPassport = (passport) => {
             })
     })
 }
+
+module.exports = configPassport;
