@@ -40,14 +40,14 @@ let exportedMethods = {
         })
     },
 
-    addItem(userProfile, name, categories, description, price, paymentMethod, geographicalArea, imagePath, time, status) {
+    addItem(userProfile, name, categories, description, price, paymentMethod, zip, imagePath, time, status) {
         if (!userProfile) return Promise.reject("No user profile specified");
         if (!name) return Promise.reject("No name specified");
         if (!categories) return Promise.reject("No categories specified");
         if (!description) return Promise.reject("No description specified");
         if (!price) return Promise.reject("No price specified");
         if (!paymentMethod) return Promise.reject("No payment method specified");
-        if (!geographicalArea) return Promise.reject("No geographical area specified");
+        if (!zip) return Promise.reject("No geographical area specified");
         if (!imagePath) return Promise.reject("No image path specified");
         if (!time) return Promise.reject("No time specified");
         if (!status) return Promise.reject("No status specified");
@@ -61,7 +61,7 @@ let exportedMethods = {
                 description: description,
                 price: price,
                 paymentMethod: paymentMethod,
-                geographicalArea: geographicalArea,
+                zip: zip,
                 imagePath: imagePath,
                 time: time,
                 rentals: [],
@@ -96,8 +96,8 @@ let exportedMethods = {
             if (updatedItem.paymentMethod) {
                 updatedItemData.paymentMethod = updatedItem.paymentMethod;
             }
-            if (updatedItem.geographicalArea) {
-                updatedItemData.geographicalArea = updatedItem.geographicalArea;
+            if (updatedItem.zip) {
+                updatedItemData.zip = updatedItem.zip;
             }
             if (updatedItem.imagePath) {
                 updatedItemData.imagePath = updatedItem.imagePath;
@@ -170,8 +170,8 @@ let exportedMethods = {
         if (searchProperties.status) {
             validSearchProperties.status = searchProperties.status;
         }
-        if (searchProperties.geographicalArea) {
-            validSearchProperties.geographicalArea = searchProperties.geographicalArea;
+        if (searchProperties.zip) {
+            validSearchProperties.zip = searchProperties.zip;
         }
         return items().then((itemsCollection) => {
             return itemsCollection.find(validSearchProperties).toArray();

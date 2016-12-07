@@ -99,7 +99,7 @@ router.get("/zip/:zip", (req, res) => {
 	itemsData.getAllItems().then((itemsArray) => {
 		let newArray = [];
 		for (var x in itemsArray) {
-			if (itemsArray[x].geographicalArea.zip == req.params.zip) {
+			if (itemsArray[x].zip == req.params.zip) {
 				newArray.push(itemsArray[x]);
 			}
 		}
