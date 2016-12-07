@@ -28,6 +28,8 @@
             <p>ID: {{itemProfile._id}}</p>
         	<br>
         	<input type="button" onclick="location.href='/items';" value="List of All Items" />
+        {{else}}
+            <h3 style="color: red";> Sorry, no results found. </h3>
         {{/if}}
         {{#if button}}
             <br>

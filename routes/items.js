@@ -19,7 +19,7 @@ router.get('/advanced', (req, res) => {
 });
 
 router.post('/advanced', function (req, res) {
-	console.log(req.body);
+	//console.log(req.body);
 	const keywords = req.body.keywords;
 	const category = req.body.category;
 	const minPrice = req.body.minPrice;
@@ -32,44 +32,199 @@ router.post('/advanced', function (req, res) {
 	//advanced search with no fields filled in
 	if (!keywords && !category && !minPrice && !maxPrice && !payment && !zipcode && !time && !availability) {
 		res.redirect('/items');
-	}
+	} else 
+	//TODO: search with keywords
+
 	//advanced search with only category field filled
 	if (!keywords && category && !minPrice && !maxPrice && !payment && !zipcode && !time && !availability) {
 		res.redirect('/items/categories/' + category);
-	}
+	} else 
 	//advanced search with min price filled in
 	if (!keywords && !category && minPrice && !maxPrice && !payment && !zipcode && !time && !availability) {
 		res.redirect('/items/price/' + minPrice + "/100000");
-	}
+	} else
 	//advanced search with max price filled in
 	if (!keywords && !category && !minPrice && maxPrice && !payment && !zipcode && !time && !availability) {
 		res.redirect('/items/price/0/' + maxPrice);
-	}
+	} else
 	//advanced search with min & max price filled in
 	if (!keywords && !category && minPrice && maxPrice && !payment && !zipcode && !time && !availability) {
 		res.redirect('/items/price/' + minPrice + "/" + maxPrice);
-	}
+	} else
 	//advanced search by payment method
 	if (!keywords && !category && !minPrice && !maxPrice && payment && !zipcode && !time && !availability) {
 		res.redirect('/items/paymentMethod/' + payment);
-	}
+	} else
 	//advanced search by zip
 	if (!keywords && !category && !minPrice && !maxPrice && !payment && zipcode && !time && !availability) {
 		res.redirect('/items/zip/' + zipcode);
-	}
+	} else
 	//advanced search by time
 	if (!keywords && !category && !minPrice && !maxPrice && !payment && !zipcode && time && !availability) {
 		res.redirect('/items/time/' + time);
-	}
+	} else
 	//advanced search by availability
 	if (!keywords && !category && !minPrice && !maxPrice && !payment && !zipcode && !time && availability) {
 		res.redirect('/items/status/' + availability);
 	}
 	else {
-		// TODO: generate query object with all parameters
-		let itemsArray = items.advancedSearch()
-		res.render("layouts/items", { pageTitle: "List of All Items", itemsArray: itemsArray });
+		let queryString = "?";
+		let count = 0;
+
+		//TODO if key words are indicated
+		
+		//if category is indicated
+		if(category) {
+			if(count > 0) {
+				queryString += "&";
+			}
+			queryString += "category=" + category;
+			count++;
+		}
+		//if minimumPrice is indicated
+		if(minPrice) {
+			if(count > 0) {
+				queryString += "&";
+			}
+			queryString += "min=" + minPrice;
+			count++;
+		}
+		//if macPrice is indicated
+		if(maxPrice) {
+			if(count > 0) {
+				queryString += "&";
+			}
+			queryString += "max=" + maxPrice;
+			count++;
+		}
+		//if payment method is indicated
+		if(payment) {
+			if(count > 0) {
+				queryString += "&";
+			}
+			queryString += "paymentMethod=" + payment;
+			count++;
+		}
+		//if zip code is indicated
+		if(zipcode) {
+			if(count > 0) {
+				queryString += "&";
+			}
+			queryString += "zip=" + zipcode;
+			count++;
+		}
+		//if time is indicated
+		if(time) {
+			if(count > 0) {
+				queryString += "&";
+			}
+			queryString += "time=" + time;
+			count++;
+		}
+		//if status is indicated
+		if(availability) {
+			if(count > 0) {
+				queryString += "&";
+			}
+			queryString += "status=" + availability;
+			count++;
+		}
+		//onsole.log(queryString);
+		res.redirect('/items/advanced/results' + queryString);
 	}
+});
+
+router.get("/advanced/results", (req, res) => {
+	//let keywords = req.body.keywords;
+	let category = req.query.category;
+	let minPrice = req.query.min;
+	let maxPrice = req.query.max;
+	let payment = req.query.paymentMethod;
+	let zipcode = req.query.zip;
+	let time = req.query.time;
+	let status = req.query.status;
+	//console.log(category + "_" + minPrice + "_" + maxPrice + "_" + payment + "_" + zipcode + "_" + time + "_" + status);
+
+	itemsData.getAllItems().then((theseItems) => {
+		let resultsArray = [];
+		let itemsArray = theseItems;
+
+		//if category is indicated
+		if(category) {
+			for (var x in itemsArray) {
+				for (var y in itemsArray[x].categories) {
+					if (itemsArray[x].categories[y] == category) {
+						resultsArray.push(itemsArray[x]);
+					}
+				}
+			}
+			itemsArray = resultsArray;
+			resultsArray = [];
+		}
+		//if min price is inidcated
+		if(minPrice) {
+			for (var x in itemsArray) {
+				if(itemsArray[x].price >= minPrice) {
+					resultsArray.push(itemsArray[x]);
+				}
+			}
+			itemsArray = resultsArray;
+			resultsArray = [];
+		}
+		//if max price is indicated
+		if(maxPrice) {
+			for (var x in itemsArray) {
+				if(itemsArray[x].price <= maxPrice) {
+					resultsArray.push(itemsArray[x]);
+				}
+			}
+			itemsArray = resultsArray;
+			resultsArray = [];
+		}
+		//if payment is indicated
+		if(payment) {
+			for (var x in itemsArray) {
+				if(itemsArray[x].paymentMethod == payment) {
+					resultsArray.push(itemsArray[x]);
+				}
+			}
+			itemsArray = resultsArray;
+			resultsArray = [];
+		}
+		//if zipcode is indicated
+		if(zipcode) {
+			for (var x in itemsArray) {
+				if(itemsArray[x].zip == zipcode) {
+					resultsArray.push(itemsArray[x]);
+				}
+			}
+			itemsArray = resultsArray;
+			resultsArray = [];
+		}
+		//if time is indicated
+		if(time) {
+			for (var x in itemsArray) {
+				if(itemsArray[x].time.maxDays >= time) {
+					resultsArray.push(itemsArray[x]);
+				}
+			}
+			itemsArray = resultsArray;
+			resultsArray = [];
+		}
+		//if status is indicated
+		if(status) {
+			for (var x in itemsArray) {
+				if(itemsArray[x].status == status) {
+					resultsArray.push(itemsArray[x]);
+				}
+			}
+			itemsArray = resultsArray;
+			resultsArray = [];
+		}
+		res.render("layouts/items", { pageTitle: "Showing Advanced Search Results", itemsArray: itemsArray, button: 1 });
+	}).catch((e) => {
+		res.status(500).json({ error: e });
+	});
 });
 
 router.get("/:id", (req, res) => {
