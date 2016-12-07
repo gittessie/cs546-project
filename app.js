@@ -8,6 +8,7 @@ const express_session = require("express-session");
 const flash = require('connect-flash');
 
 const configRoutes = require("./routes");
+const configPassport = require('./config/passport')
 
 const exphbs = require('express-handlebars');
 
@@ -61,7 +62,8 @@ app.engine('handlebars', handlebarsInstance.engine);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'handlebars');
 
-configRoutes(app);
+configPassport(passport);
+configRoutes(app, passport);
 
 app.listen(3000, () => {
     console.log("We've now got a server!");
