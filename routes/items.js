@@ -19,6 +19,7 @@ router.get('/advanced', (req, res) => {
 });
 
 router.post('/advanced', function (req, res) {
+	console.log(req.body);
 	const keywords = req.body.keywords;
 	const category = req.body.category;
 	const minPrice = req.body.minPrice;
@@ -50,7 +51,7 @@ router.post('/advanced', function (req, res) {
 	}
 	//advanced search by payment method
 	if (!keywords && !category && !minPrice && !maxPrice && payment && !zipcode && !time && !availability) {
-		res.redirect('/items'); //TODO
+		res.redirect('/items/paymentMethod/' + payment);
 	}
 	//advanced search by zip
 	if (!keywords && !category && !minPrice && !maxPrice && !payment && zipcode && !time && !availability) {
@@ -169,6 +170,20 @@ router.get("/price/:min/:max", (req, res) => {
 			}
 		}
 		res.render("layouts/items", { pageTitle: "Showing items with price within [" + req.params.min + ", " + req.params.max + "]", itemsArray: newArray, button: 1 });
+	}).catch((e) => {
+		res.status(500).json({ error: e });
+	});
+});
+
+router.get("/paymentMethod/:method", (req, res) => {
+	itemsData.getAllItems().then((itemsArray) => {
+		let newArray = [];
+		for (var x in itemsArray) {
+			if(itemsArray[x].paymentMethod == req.params.method) {
+				newArray.push(itemsArray[x]);
+			}
+		}
+		res.render("layouts/items", { pageTitle: "Showing items with payment Method '" + req.params.method + "'", itemsArray: newArray, button: 1 });
 	}).catch((e) => {
 		res.status(500).json({ error: e });
 	});
