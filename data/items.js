@@ -191,6 +191,14 @@ let exportedMethods = {
                     }
                 })
         })
+    },
+
+    searchByKeyword(theString) {
+        if(!theString) return Promise.reject("No word specified");
+        return items().then((itemsCollection) => {
+            itemsCollection.createIndex({ description: "text" });
+            return itemsCollection.find({ $text: { $search: theString } }).toArray();
+        })
     }
 }
 

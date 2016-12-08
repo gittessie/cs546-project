@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const data = require("../data");
+const mongoCollections = require('../config/mongoCollections');
+const items = mongoCollections.items;
 const usersData = data.users;
 const itemsData = data.items;
 const uuid = require('node-uuid');
@@ -33,8 +35,10 @@ router.post('/advanced', function (req, res) {
 	if (!keywords && !category && !minPrice && !maxPrice && !payment && !zipcode && !time && !availability) {
 		res.redirect('/items');
 	} else 
-	//TODO: search with keywords
-
+	//advanced search with only the keywords category filled
+	if (keywords && !category && !minPrice && !maxPrice && !payment && !zipcode && !time && !availability) {
+		res.redirect('/items/advanced/results?keywords=' + keywords);
+	} else
 	//advanced search with only category field filled
 	if (!keywords && category && !minPrice && !maxPrice && !payment && !zipcode && !time && !availability) {
 		res.redirect('/items/categories/' + category);
@@ -71,8 +75,14 @@ router.post('/advanced', function (req, res) {
 		let queryString = "?";
 		let count = 0;
 
-		//TODO if key words are indicated
-		
+		//if key words are indicated
+		if(keywords) {
+			if(count > 0) {
+				queryString += "&";
+			}
+			queryString += "keywords=" + keywords;
+			count++;
+		}
 		//if category is indicated
 		if(category) {
 			if(count > 0) {
@@ -135,7 +145,7 @@ router.post('/advanced', function (req, res) {
 });
 
 router.get("/advanced/results", (req, res) => {
-	//let keywords = req.body.keywords;
+	let keywords = req.query.keywords;
 	let category = req.query.category;
 	let minPrice = req.query.min;
 	let maxPrice = req.query.max;
@@ -145,86 +155,167 @@ router.get("/advanced/results", (req, res) => {
 	let status = req.query.status;
 	//console.log(category + "_" + minPrice + "_" + maxPrice + "_" + payment + "_" + zipcode + "_" + time + "_" + status);
 
-	itemsData.getAllItems().then((theseItems) => {
-		let resultsArray = [];
-		let itemsArray = theseItems;
-
-		//if category is indicated
-		if(category) {
-			for (var x in itemsArray) {
-				for (var y in itemsArray[x].categories) {
-					if (itemsArray[x].categories[y] == category) {
+	if(keywords) {
+		itemsData.searchByKeyword(keywords.replace(",", " ")).then((theseItems) => {
+			let resultsArray = [];
+			let itemsArray = theseItems;
+			//if category is indicated
+			if(category) {
+				for (var x in itemsArray) {
+					for (var y in itemsArray[x].categories) {
+						if (itemsArray[x].categories[y] == category) {
+							resultsArray.push(itemsArray[x]);
+						}
+					}
+				}
+				itemsArray = resultsArray;
+				resultsArray = [];
+			}
+			//if min price is inidcated
+			if(minPrice) {
+				for (var x in itemsArray) {
+					if(itemsArray[x].price >= minPrice) {
 						resultsArray.push(itemsArray[x]);
 					}
 				}
+				itemsArray = resultsArray;
+				resultsArray = [];
 			}
-			itemsArray = resultsArray;
-			resultsArray = [];
-		}
-		//if min price is inidcated
-		if(minPrice) {
-			for (var x in itemsArray) {
-				if(itemsArray[x].price >= minPrice) {
-					resultsArray.push(itemsArray[x]);
+			//if max price is indicated
+			if(maxPrice) {
+				for (var x in itemsArray) {
+					if(itemsArray[x].price <= maxPrice) {
+						resultsArray.push(itemsArray[x]);
+					}
 				}
+				itemsArray = resultsArray;
+				resultsArray = [];
 			}
-			itemsArray = resultsArray;
-			resultsArray = [];
-		}
-		//if max price is indicated
-		if(maxPrice) {
-			for (var x in itemsArray) {
-				if(itemsArray[x].price <= maxPrice) {
-					resultsArray.push(itemsArray[x]);
+			//if payment is indicated
+			if(payment) {
+				for (var x in itemsArray) {
+					if(itemsArray[x].paymentMethod == payment) {
+						resultsArray.push(itemsArray[x]);
+					}
 				}
+				itemsArray = resultsArray;
+				resultsArray = [];
 			}
-			itemsArray = resultsArray;
-			resultsArray = [];
-		}
-		//if payment is indicated
-		if(payment) {
-			for (var x in itemsArray) {
-				if(itemsArray[x].paymentMethod == payment) {
-					resultsArray.push(itemsArray[x]);
+			//if zipcode is indicated
+			if(zipcode) {
+				for (var x in itemsArray) {
+					if(itemsArray[x].zip == zipcode) {
+						resultsArray.push(itemsArray[x]);
+					}
 				}
+				itemsArray = resultsArray;
+				resultsArray = [];
 			}
-			itemsArray = resultsArray;
-			resultsArray = [];
-		}
-		//if zipcode is indicated
-		if(zipcode) {
-			for (var x in itemsArray) {
-				if(itemsArray[x].zip == zipcode) {
-					resultsArray.push(itemsArray[x]);
+			//if time is indicated
+			if(time) {
+				for (var x in itemsArray) {
+					if(itemsArray[x].time.maxDays >= time) {
+						resultsArray.push(itemsArray[x]);
+					}
 				}
+				itemsArray = resultsArray;
+				resultsArray = [];
 			}
-			itemsArray = resultsArray;
-			resultsArray = [];
-		}
-		//if time is indicated
-		if(time) {
-			for (var x in itemsArray) {
-				if(itemsArray[x].time.maxDays >= time) {
-					resultsArray.push(itemsArray[x]);
+			//if status is indicated
+			if(status) {
+				for (var x in itemsArray) {
+					if(itemsArray[x].status == status) {
+						resultsArray.push(itemsArray[x]);
+					}
 				}
+				itemsArray = resultsArray;
+				resultsArray = [];
 			}
-			itemsArray = resultsArray;
-			resultsArray = [];
-		}
-		//if status is indicated
-		if(status) {
-			for (var x in itemsArray) {
-				if(itemsArray[x].status == status) {
-					resultsArray.push(itemsArray[x]);
+			res.render("layouts/items", { pageTitle: "Showing Advanced Search Results", itemsArray: itemsArray, button: 1 });
+		}).catch((e) => {
+			res.status(500).json({ error: e });
+		});
+	} else {
+		itemsData.getAllItems().then((theseItems) => {
+			let resultsArray = [];
+			let itemsArray = theseItems;
+			//if category is indicated
+			if(category) {
+				for (var x in itemsArray) {
+					for (var y in itemsArray[x].categories) {
+						if (itemsArray[x].categories[y] == category) {
+							resultsArray.push(itemsArray[x]);
+						}
+					}
 				}
+				itemsArray = resultsArray;
+				resultsArray = [];
 			}
-			itemsArray = resultsArray;
-			resultsArray = [];
-		}
-		res.render("layouts/items", { pageTitle: "Showing Advanced Search Results", itemsArray: itemsArray, button: 1 });
-	}).catch((e) => {
-		res.status(500).json({ error: e });
-	});
+			//if min price is inidcated
+			if(minPrice) {
+				for (var x in itemsArray) {
+					if(itemsArray[x].price >= minPrice) {
+						resultsArray.push(itemsArray[x]);
+					}
+				}
+				itemsArray = resultsArray;
+				resultsArray = [];
+			}
+			//if max price is indicated
+			if(maxPrice) {
+				for (var x in itemsArray) {
+					if(itemsArray[x].price <= maxPrice) {
+						resultsArray.push(itemsArray[x]);
+					}
+				}
+				itemsArray = resultsArray;
+				resultsArray = [];
+			}
+			//if payment is indicated
+			if(payment) {
+				for (var x in itemsArray) {
+					if(itemsArray[x].paymentMethod == payment) {
+						resultsArray.push(itemsArray[x]);
+					}
+				}
+				itemsArray = resultsArray;
+				resultsArray = [];
+			}
+			//if zipcode is indicated
+			if(zipcode) {
+				for (var x in itemsArray) {
+					if(itemsArray[x].zip == zipcode) {
+						resultsArray.push(itemsArray[x]);
+					}
+				}
+				itemsArray = resultsArray;
+				resultsArray = [];
+			}
+			//if time is indicated
+			if(time) {
+				for (var x in itemsArray) {
+					if(itemsArray[x].time.maxDays >= time) {
+						resultsArray.push(itemsArray[x]);
+					}
+				}
+				itemsArray = resultsArray;
+				resultsArray = [];
+			}
+			//if status is indicated
+			if(status) {
+				for (var x in itemsArray) {
+					if(itemsArray[x].status == status) {
+						resultsArray.push(itemsArray[x]);
+					}
+				}
+				itemsArray = resultsArray;
+				resultsArray = [];
+			}
+			res.render("layouts/items", { pageTitle: "Showing Advanced Search Results", itemsArray: itemsArray, button: 1 });
+		}).catch((e) => {
+			res.status(500).json({ error: e });
+		});
+	}
 });
 
 router.get("/:id", (req, res) => {
