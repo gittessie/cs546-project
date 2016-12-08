@@ -9,8 +9,10 @@ const uuid = require('node-uuid');
 const fs = require('fs');
 const path = require('path');
 
+let localError;
 
 router.get("/", (req, res) => {
+	localError = "";
 	itemsData.getAllItems().then((itemsArray) => {
 		res.render("layouts/items", { pageTitle: "List of All Items", itemsArray: itemsArray });
 	}).catch((e) => {
@@ -19,6 +21,7 @@ router.get("/", (req, res) => {
 });
 
 router.get('/advanced', (req, res) => {
+	localError = "";
 	res.render('layouts/advanced');
 });
 
@@ -32,6 +35,7 @@ router.post('/advanced', function (req, res) {
 	const zipcode = req.body.zipcode;
 	const time = req.body.time;
 	const availability = req.body.availability;
+	localError = "";
 
 	//advanced search with no fields filled in
 	if (!keywords && !category && !minPrice && !maxPrice && !payment && !zipcode && !time && !availability) {
@@ -147,6 +151,7 @@ router.post('/advanced', function (req, res) {
 });
 
 router.get("/advanced/results", (req, res) => {
+	localError = "";
 	let keywords = req.query.keywords;
 	let category = req.query.category;
 	let minPrice = req.query.min;
@@ -322,13 +327,49 @@ router.get("/advanced/results", (req, res) => {
 
 router.get("/:id", (req, res) => {
 	itemsData.getItemById(req.params.id).then((thisItem) => {
-		res.render("layouts/items", { pageTitle: thisItem.name, itemProfile: thisItem });
+		res.render("layouts/items", { pageTitle: thisItem.name, itemProfile: thisItem, error: localError });
 	}).catch((e) => {
 		res.status(500).json({ error: e });
 	});
 });
 
+router.get("/:id/rent", (req, res) => {
+	itemsData.getItemById(req.params.id).then((thisItem) => {
+		if(thisItem.status == "unavailable") {
+			localError = "Cannot rent this item. It is unavailable.";
+			res.redirect("/items/" + req.params.id);
+			return;
+		}
+		if(req.user) {
+			res.render("layouts/rental", { pageTitle: "Rent this item: " + thisItem.name + " from user " + thisItem.userProfile.username });
+		} else {
+			res.redirect("/account/login/");
+		}
+	}).catch((e) => {
+		res.status(500).json({ error: e });
+	});
+});
+
+router.post("/:id/rent", (req, res) => {
+	let start = req.body.startDate;
+	let end = req.body.endDate;
+	localError = "";
+
+	itemsData.getItemById(req.params.id).then((thisItem) => {
+		usersData.getUserById(req.user._id).then((thisUser) => {
+			itemsData.addRental(req.params.id, thisUser.userProfile, start, end).then((newItem) => {
+				itemsData.updateItem(req.params.id, { "status": "unavailable" }).then((updatedItem) => {
+					res.redirect("/items/" + req.params.id);
+				});
+			});
+		});
+	}).catch((e) => {
+		res.render("layouts/rental", { pageTitle: "Rent this item: " + thisItem.name + " from user " + thisItem.userProfile.username, error: e});
+	});
+});
+
 router.get("/categories/:category", (req, res) => {
+	localError = "";
 	itemsData.getAllItems().then((itemsArray) => {
 		let newArray = [];
 		for (var x in itemsArray) {
@@ -345,6 +386,7 @@ router.get("/categories/:category", (req, res) => {
 });
 
 router.get("/zip/:zip", (req, res) => {
+	localError = "";
 	itemsData.getAllItems().then((itemsArray) => {
 		let newArray = [];
 		for (var x in itemsArray) {
@@ -359,6 +401,7 @@ router.get("/zip/:zip", (req, res) => {
 });
 
 router.get("/time/:time", (req, res) => {
+	localError = "";
 	itemsData.getAllItems().then((itemsArray) => {
 		let newArray = [];
 		for (var x in itemsArray) {
@@ -374,6 +417,7 @@ router.get("/time/:time", (req, res) => {
 
 //takes in the userid, not the user profile id
 router.get("/user/:userid", (req, res) => {
+	localError = "";
 	usersData.getUserById(req.params.userid).then((thisUser) => {
 		let userProfileId = thisUser.userProfile._id;
 		itemsData.getItemsForUserProfileId(userProfileId).then((itemsArray) => {
@@ -385,6 +429,7 @@ router.get("/user/:userid", (req, res) => {
 });
 
 router.get("/user/username/:username", (req, res) => {
+	localError = "";
 	usersData.getUserByUsername(req.params.username).then((thisUser) => {
 		let userProfileId = thisUser.userProfile._id;
 		itemsData.getItemsForUserProfileId(userProfileId).then((itemsArray) => {
@@ -396,6 +441,7 @@ router.get("/user/username/:username", (req, res) => {
 });
 
 router.get("/status/:status", (req, res) => {
+	localError = "";
 	itemsData.getAllItems().then((itemsArray) => {
 		let newArray = [];
 		for (var x in itemsArray) {
@@ -410,6 +456,7 @@ router.get("/status/:status", (req, res) => {
 });
 
 router.get("/price/:min/:max", (req, res) => {
+	localError = "";
 	itemsData.getAllItems().then((itemsArray) => {
 		let newArray = [];
 		for (var x in itemsArray) {
@@ -424,6 +471,7 @@ router.get("/price/:min/:max", (req, res) => {
 });
 
 router.get("/paymentMethod/:method", (req, res) => {
+	localError = "";
 	itemsData.getAllItems().then((itemsArray) => {
 		let newArray = [];
 		for (var x in itemsArray) {
@@ -438,6 +486,7 @@ router.get("/paymentMethod/:method", (req, res) => {
 });
 
 router.get("/new/:userid", (req, res) => {
+	localError = "";
 	res.render("layouts/form_item", { pageTitle: "Create a new item!" });
 });
 
