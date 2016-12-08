@@ -444,7 +444,6 @@ router.get("/new/:userid", (req, res) => {
 router.post("/new/:userid", (req, res) => {
 	let name = req.body.name;
 	let categories = req.body.categories.match(/[^,]+/g);
-	console.log(categories);
 	let description = req.body.description;
 	let price = parseInt(req.body.price);
 	let payment = req.body.paymentMethod;
@@ -466,7 +465,7 @@ router.post("/new/:userid", (req, res) => {
 			res.render("layouts/form_item", { pageTitle: "ERROR!", error: e });
 		}
 	}).catch((e) => {
-		res.render("layouts/form_item", { pageTitle: "Create a new item!", name: name, categories: categories, description: description, price: price, payment: payment, zip: geo.zip, radius: geo.radius, minDays: time.minDays, maxDays: time.maxDays, error: e });
+		res.render("layouts/form_item", { pageTitle: "Create a new item!", name: name, categories: categories, description: description, price: price, payment: payment, zip: geo, minDays: time.minDays, maxDays: time.maxDays, error: e });
 		return;
 	});
 });
