@@ -179,11 +179,23 @@ li.dropdown {
 
 
 /*HOMEPAGE STYLING*/
+#LeftPanel{
+    width: 30%;
+    height: 100%;
+    float: left;
+    text-align: center;
+}
+#RightPanel{
+    width: 70%;
+    height: 100%;
+    text-align: left;
+    vertical-align: top;
+    float: right;
+}
 .catIcons{
     height: 150px;
     width: 150px;
 }
-
 .popCatTable{
 	display: table;
 	width: 100%;
@@ -202,6 +214,19 @@ li.dropdown {
 }
 /*ADVANCED SEARCH PAGE STYLING*/
 .advancedSearchDisplay{
+    max-width: 500px;
+    margin: auto;
+    padding-bottom: 25px;
+}
+/*LOGIN PAGE STYLING*/
+.loginPage{
+    max-width: 500px;
+    margin: auto;
+    padding-bottom: 25px;
+}
+
+/*REGISTRATION PAGE STYLING*/
+.registerPage{
     max-width: 500px;
     margin: auto;
     padding-bottom: 25px;
