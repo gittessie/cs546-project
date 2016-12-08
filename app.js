@@ -1,5 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const multer = require('multer');
+const uuid = require('node-uuid');
 let app = express();
 const static = express.static(__dirname + '/public');
 const path = require("path");
@@ -46,6 +48,16 @@ const rewriteUnsupportedBrowserMethods = (req, res, next) => {
 app.use("/public", static);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+let storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, path.join(__dirname, 'public', 'uploads'))
+    },
+    filename: function (req, file, cb) {
+        let ext = path.extname(file.originalname);
+        cb(null, uuid.v4() + ext);
+    }
+})
+app.use(multer({ storage: storage }).single('itemImage'));
 app.use(rewriteUnsupportedBrowserMethods);
 
 app.use(require("cookie-parser")());

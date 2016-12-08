@@ -7,6 +7,8 @@ const usersData = data.users;
 const itemsData = data.items;
 const uuid = require('node-uuid');
 const fs = require('fs');
+const path = require('path');
+
 
 router.get("/", (req, res) => {
 	itemsData.getAllItems().then((itemsArray) => {
@@ -34,114 +36,114 @@ router.post('/advanced', function (req, res) {
 	//advanced search with no fields filled in
 	if (!keywords && !category && !minPrice && !maxPrice && !payment && !zipcode && !time && !availability) {
 		res.redirect('/items');
-	} else 
-	//advanced search with only the keywords category filled
-	if (keywords && !category && !minPrice && !maxPrice && !payment && !zipcode && !time && !availability) {
-		res.redirect('/items/advanced/results?keywords=' + keywords);
 	} else
-	//advanced search with only category field filled
-	if (!keywords && category && !minPrice && !maxPrice && !payment && !zipcode && !time && !availability) {
-		res.redirect('/items/categories/' + category);
-	} else 
-	//advanced search with min price filled in
-	if (!keywords && !category && minPrice && !maxPrice && !payment && !zipcode && !time && !availability) {
-		res.redirect('/items/price/' + minPrice + "/100000");
-	} else
-	//advanced search with max price filled in
-	if (!keywords && !category && !minPrice && maxPrice && !payment && !zipcode && !time && !availability) {
-		res.redirect('/items/price/0/' + maxPrice);
-	} else
-	//advanced search with min & max price filled in
-	if (!keywords && !category && minPrice && maxPrice && !payment && !zipcode && !time && !availability) {
-		res.redirect('/items/price/' + minPrice + "/" + maxPrice);
-	} else
-	//advanced search by payment method
-	if (!keywords && !category && !minPrice && !maxPrice && payment && !zipcode && !time && !availability) {
-		res.redirect('/items/paymentMethod/' + payment);
-	} else
-	//advanced search by zip
-	if (!keywords && !category && !minPrice && !maxPrice && !payment && zipcode && !time && !availability) {
-		res.redirect('/items/zip/' + zipcode);
-	} else
-	//advanced search by time
-	if (!keywords && !category && !minPrice && !maxPrice && !payment && !zipcode && time && !availability) {
-		res.redirect('/items/time/' + time);
-	} else
-	//advanced search by availability
-	if (!keywords && !category && !minPrice && !maxPrice && !payment && !zipcode && !time && availability) {
-		res.redirect('/items/status/' + availability);
-	}
-	else {
-		let queryString = "?";
-		let count = 0;
+		//advanced search with only the keywords category filled
+		if (keywords && !category && !minPrice && !maxPrice && !payment && !zipcode && !time && !availability) {
+			res.redirect('/items/advanced/results?keywords=' + keywords);
+		} else
+			//advanced search with only category field filled
+			if (!keywords && category && !minPrice && !maxPrice && !payment && !zipcode && !time && !availability) {
+				res.redirect('/items/categories/' + category);
+			} else
+				//advanced search with min price filled in
+				if (!keywords && !category && minPrice && !maxPrice && !payment && !zipcode && !time && !availability) {
+					res.redirect('/items/price/' + minPrice + "/100000");
+				} else
+					//advanced search with max price filled in
+					if (!keywords && !category && !minPrice && maxPrice && !payment && !zipcode && !time && !availability) {
+						res.redirect('/items/price/0/' + maxPrice);
+					} else
+						//advanced search with min & max price filled in
+						if (!keywords && !category && minPrice && maxPrice && !payment && !zipcode && !time && !availability) {
+							res.redirect('/items/price/' + minPrice + "/" + maxPrice);
+						} else
+							//advanced search by payment method
+							if (!keywords && !category && !minPrice && !maxPrice && payment && !zipcode && !time && !availability) {
+								res.redirect('/items/paymentMethod/' + payment);
+							} else
+								//advanced search by zip
+								if (!keywords && !category && !minPrice && !maxPrice && !payment && zipcode && !time && !availability) {
+									res.redirect('/items/zip/' + zipcode);
+								} else
+									//advanced search by time
+									if (!keywords && !category && !minPrice && !maxPrice && !payment && !zipcode && time && !availability) {
+										res.redirect('/items/time/' + time);
+									} else
+										//advanced search by availability
+										if (!keywords && !category && !minPrice && !maxPrice && !payment && !zipcode && !time && availability) {
+											res.redirect('/items/status/' + availability);
+										}
+										else {
+											let queryString = "?";
+											let count = 0;
 
-		//if key words are indicated
-		if(keywords) {
-			if(count > 0) {
-				queryString += "&";
-			}
-			queryString += "keywords=" + keywords;
-			count++;
-		}
-		//if category is indicated
-		if(category) {
-			if(count > 0) {
-				queryString += "&";
-			}
-			queryString += "category=" + category;
-			count++;
-		}
-		//if minimumPrice is indicated
-		if(minPrice) {
-			if(count > 0) {
-				queryString += "&";
-			}
-			queryString += "min=" + minPrice;
-			count++;
-		}
-		//if macPrice is indicated
-		if(maxPrice) {
-			if(count > 0) {
-				queryString += "&";
-			}
-			queryString += "max=" + maxPrice;
-			count++;
-		}
-		//if payment method is indicated
-		if(payment) {
-			if(count > 0) {
-				queryString += "&";
-			}
-			queryString += "paymentMethod=" + payment;
-			count++;
-		}
-		//if zip code is indicated
-		if(zipcode) {
-			if(count > 0) {
-				queryString += "&";
-			}
-			queryString += "zip=" + zipcode;
-			count++;
-		}
-		//if time is indicated
-		if(time) {
-			if(count > 0) {
-				queryString += "&";
-			}
-			queryString += "time=" + time;
-			count++;
-		}
-		//if status is indicated
-		if(availability) {
-			if(count > 0) {
-				queryString += "&";
-			}
-			queryString += "status=" + availability;
-			count++;
-		}
-		//onsole.log(queryString);
-		res.redirect('/items/advanced/results' + queryString);
-	}
+											//if key words are indicated
+											if (keywords) {
+												if (count > 0) {
+													queryString += "&";
+												}
+												queryString += "keywords=" + keywords;
+												count++;
+											}
+											//if category is indicated
+											if (category) {
+												if (count > 0) {
+													queryString += "&";
+												}
+												queryString += "category=" + category;
+												count++;
+											}
+											//if minimumPrice is indicated
+											if (minPrice) {
+												if (count > 0) {
+													queryString += "&";
+												}
+												queryString += "min=" + minPrice;
+												count++;
+											}
+											//if macPrice is indicated
+											if (maxPrice) {
+												if (count > 0) {
+													queryString += "&";
+												}
+												queryString += "max=" + maxPrice;
+												count++;
+											}
+											//if payment method is indicated
+											if (payment) {
+												if (count > 0) {
+													queryString += "&";
+												}
+												queryString += "paymentMethod=" + payment;
+												count++;
+											}
+											//if zip code is indicated
+											if (zipcode) {
+												if (count > 0) {
+													queryString += "&";
+												}
+												queryString += "zip=" + zipcode;
+												count++;
+											}
+											//if time is indicated
+											if (time) {
+												if (count > 0) {
+													queryString += "&";
+												}
+												queryString += "time=" + time;
+												count++;
+											}
+											//if status is indicated
+											if (availability) {
+												if (count > 0) {
+													queryString += "&";
+												}
+												queryString += "status=" + availability;
+												count++;
+											}
+											//onsole.log(queryString);
+											res.redirect('/items/advanced/results' + queryString);
+										}
 });
 
 router.get("/advanced/results", (req, res) => {
@@ -155,12 +157,12 @@ router.get("/advanced/results", (req, res) => {
 	let status = req.query.status;
 	//console.log(category + "_" + minPrice + "_" + maxPrice + "_" + payment + "_" + zipcode + "_" + time + "_" + status);
 
-	if(keywords) {
+	if (keywords) {
 		itemsData.searchByKeyword(keywords.replace(",", " ")).then((theseItems) => {
 			let resultsArray = [];
 			let itemsArray = theseItems;
 			//if category is indicated
-			if(category) {
+			if (category) {
 				for (var x in itemsArray) {
 					for (var y in itemsArray[x].categories) {
 						if (itemsArray[x].categories[y] == category) {
@@ -172,9 +174,9 @@ router.get("/advanced/results", (req, res) => {
 				resultsArray = [];
 			}
 			//if min price is inidcated
-			if(minPrice) {
+			if (minPrice) {
 				for (var x in itemsArray) {
-					if(itemsArray[x].price >= minPrice) {
+					if (itemsArray[x].price >= minPrice) {
 						resultsArray.push(itemsArray[x]);
 					}
 				}
@@ -182,9 +184,9 @@ router.get("/advanced/results", (req, res) => {
 				resultsArray = [];
 			}
 			//if max price is indicated
-			if(maxPrice) {
+			if (maxPrice) {
 				for (var x in itemsArray) {
-					if(itemsArray[x].price <= maxPrice) {
+					if (itemsArray[x].price <= maxPrice) {
 						resultsArray.push(itemsArray[x]);
 					}
 				}
@@ -192,9 +194,9 @@ router.get("/advanced/results", (req, res) => {
 				resultsArray = [];
 			}
 			//if payment is indicated
-			if(payment) {
+			if (payment) {
 				for (var x in itemsArray) {
-					if(itemsArray[x].paymentMethod == payment) {
+					if (itemsArray[x].paymentMethod == payment) {
 						resultsArray.push(itemsArray[x]);
 					}
 				}
@@ -202,9 +204,9 @@ router.get("/advanced/results", (req, res) => {
 				resultsArray = [];
 			}
 			//if zipcode is indicated
-			if(zipcode) {
+			if (zipcode) {
 				for (var x in itemsArray) {
-					if(itemsArray[x].zip == zipcode) {
+					if (itemsArray[x].zip == zipcode) {
 						resultsArray.push(itemsArray[x]);
 					}
 				}
@@ -212,9 +214,9 @@ router.get("/advanced/results", (req, res) => {
 				resultsArray = [];
 			}
 			//if time is indicated
-			if(time) {
+			if (time) {
 				for (var x in itemsArray) {
-					if(itemsArray[x].time.maxDays >= time) {
+					if (itemsArray[x].time.maxDays >= time) {
 						resultsArray.push(itemsArray[x]);
 					}
 				}
@@ -222,9 +224,9 @@ router.get("/advanced/results", (req, res) => {
 				resultsArray = [];
 			}
 			//if status is indicated
-			if(status) {
+			if (status) {
 				for (var x in itemsArray) {
-					if(itemsArray[x].status == status) {
+					if (itemsArray[x].status == status) {
 						resultsArray.push(itemsArray[x]);
 					}
 				}
@@ -240,7 +242,7 @@ router.get("/advanced/results", (req, res) => {
 			let resultsArray = [];
 			let itemsArray = theseItems;
 			//if category is indicated
-			if(category) {
+			if (category) {
 				for (var x in itemsArray) {
 					for (var y in itemsArray[x].categories) {
 						if (itemsArray[x].categories[y] == category) {
@@ -252,9 +254,9 @@ router.get("/advanced/results", (req, res) => {
 				resultsArray = [];
 			}
 			//if min price is inidcated
-			if(minPrice) {
+			if (minPrice) {
 				for (var x in itemsArray) {
-					if(itemsArray[x].price >= minPrice) {
+					if (itemsArray[x].price >= minPrice) {
 						resultsArray.push(itemsArray[x]);
 					}
 				}
@@ -262,9 +264,9 @@ router.get("/advanced/results", (req, res) => {
 				resultsArray = [];
 			}
 			//if max price is indicated
-			if(maxPrice) {
+			if (maxPrice) {
 				for (var x in itemsArray) {
-					if(itemsArray[x].price <= maxPrice) {
+					if (itemsArray[x].price <= maxPrice) {
 						resultsArray.push(itemsArray[x]);
 					}
 				}
@@ -272,9 +274,9 @@ router.get("/advanced/results", (req, res) => {
 				resultsArray = [];
 			}
 			//if payment is indicated
-			if(payment) {
+			if (payment) {
 				for (var x in itemsArray) {
-					if(itemsArray[x].paymentMethod == payment) {
+					if (itemsArray[x].paymentMethod == payment) {
 						resultsArray.push(itemsArray[x]);
 					}
 				}
@@ -282,9 +284,9 @@ router.get("/advanced/results", (req, res) => {
 				resultsArray = [];
 			}
 			//if zipcode is indicated
-			if(zipcode) {
+			if (zipcode) {
 				for (var x in itemsArray) {
-					if(itemsArray[x].zip == zipcode) {
+					if (itemsArray[x].zip == zipcode) {
 						resultsArray.push(itemsArray[x]);
 					}
 				}
@@ -292,9 +294,9 @@ router.get("/advanced/results", (req, res) => {
 				resultsArray = [];
 			}
 			//if time is indicated
-			if(time) {
+			if (time) {
 				for (var x in itemsArray) {
-					if(itemsArray[x].time.maxDays >= time) {
+					if (itemsArray[x].time.maxDays >= time) {
 						resultsArray.push(itemsArray[x]);
 					}
 				}
@@ -302,9 +304,9 @@ router.get("/advanced/results", (req, res) => {
 				resultsArray = [];
 			}
 			//if status is indicated
-			if(status) {
+			if (status) {
 				for (var x in itemsArray) {
-					if(itemsArray[x].status == status) {
+					if (itemsArray[x].status == status) {
 						resultsArray.push(itemsArray[x]);
 					}
 				}
@@ -425,7 +427,7 @@ router.get("/paymentMethod/:method", (req, res) => {
 	itemsData.getAllItems().then((itemsArray) => {
 		let newArray = [];
 		for (var x in itemsArray) {
-			if(itemsArray[x].paymentMethod == req.params.method) {
+			if (itemsArray[x].paymentMethod == req.params.method) {
 				newArray.push(itemsArray[x]);
 			}
 		}
@@ -447,34 +449,26 @@ router.post("/new/:userid", (req, res) => {
 	let price = parseInt(req.body.price);
 	let payment = req.body.paymentMethod;
 	let geo = req.body.zip;
-	let imagePath = req.files.photo.path;
+	let filename = "/public/uploads/" + req.file.filename;
 	let time = {
 		minDays: parseInt(req.body.minDays),
 		maxDays: parseInt(req.body.maxDays)
 	};
 	let status = "available";
 
-	let fileExt = imagePath.split('.').pop();
-	let imageID = uuid.v4();
-
-	fs.readFile(imagePath, function (err, data) {
-		let newPath = __dirname + "/public/uploads/" + imageID + "." + fileExt;
-		fs.writeFile(newPath, data, function (err) {
-			usersData.getUserById(req.params.userid).then((thisUser) => {
-				let userProfile = thisUser.userProfile;
-				try {
-					itemsData.addItem(userProfile, name, categories, description, price, payment, geo, newPath, time, status).then((newItem) => {
-						res.render("layouts/items", { pageTitle: name, itemProfile: newItem })
-					});
-				} catch (e) {
-					res.render("layouts/form_item", { pageTitle: "ERROR!", error: e });
-				}
-			}).catch((e) => {
-				res.render("layouts/form_item", { pageTitle: "Create a new item!", name: name, categories: categories, description: description, price: price, payment: payment, zip: geo.zip, radius: geo.radius, imagePath: imagePath, minDays: time.minDays, maxDays: time.maxDays, error: e });
-				return;
+	usersData.getUserById(req.params.userid).then((thisUser) => {
+		let userProfile = thisUser.userProfile;
+		try {
+			itemsData.addItem(userProfile, name, categories, description, price, payment, geo, filename, time, status).then((newItem) => {
+				res.render("layouts/items", { pageTitle: name, itemProfile: newItem })
 			});
-		})
-	})
+		} catch (e) {
+			res.render("layouts/form_item", { pageTitle: "ERROR!", error: e });
+		}
+	}).catch((e) => {
+		res.render("layouts/form_item", { pageTitle: "Create a new item!", name: name, categories: categories, description: description, price: price, payment: payment, zip: geo.zip, radius: geo.radius, minDays: time.minDays, maxDays: time.maxDays, error: e });
+		return;
+	});
 });
 
 router.put("/:userid/:id", (req, res) => {
