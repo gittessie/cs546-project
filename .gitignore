@@ -47,4 +47,6 @@ jspm_packages
 .yarn-integrity
 
 # uploads directory
-public/uploads/!.gitkeep
+public/uploads/!orgo.png
+public/uploads/!ricecooker.jpg
+public/uploads/!wiiu.png
