@@ -5,7 +5,7 @@ body {
 }
 
 main {
-    max-width: 75%;
+    max-width: 95%;
     margin: auto;
 }
 
@@ -82,7 +82,7 @@ li a, .dropbtn {
 li a:hover, .dropdown:hover .dropbtn {
     background-color: #555;
 }
-
+/*
 li.dropdown {
     display: inline-block;
 }
@@ -110,7 +110,7 @@ li.dropdown {
 .dropdown:hover .dropdown-content {
     display: block;
 }
-
+*/
 
 /*drowpdown*/
 #options a{
@@ -175,4 +175,34 @@ li.dropdown {
     text-align: center;
     height: 40px;
     cursor: pointer;
+}
+
+
+/*HOMEPAGE STYLING*/
+.catIcons{
+    height: 150px;
+    width: 150px;
+}
+
+.popCatTable{
+	display: table;
+	width: 100%;
+}
+.popCatTableRow {
+	display: table-row;
+}
+.popCatTableCell{
+	/*border: 1px solid #000;*/
+    text-align: center;
+	display: table-cell;
+	padding: 20px 20px;
+}
+.popCatTableBody {
+	display: table-row-group;
+}
+/*ADVANCED SEARCH PAGE STYLING*/
+.advancedSearchDisplay{
+    max-width: 500px;
+    margin: auto;
+    padding-bottom: 25px;
 }
