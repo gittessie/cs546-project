@@ -11,11 +11,17 @@ module.exports = function (passport) {
 	router.post("/new", (req, res, next) => {
 		let username = req.body.username;
 		let password = req.body.password;
+		let password2 = req.body.password2;
 		let firstName = req.body.firstName;
 		let lastName = req.body.lastName;
 		let email = req.body.email;
 		let phoneNum = req.body.phoneNum;
 		let zipCode = req.body.zipCode;
+		
+		if (password2 !== password) {
+            res.render("layouts/newAccount", { pageTitle: "Create a new account!", username: username, password: password, password2: password2, firstName: firstName, lastName: lastName, email: email, phoneNum: phoneNum, zipCode: zipCode, error: "Passwords do not match" });
+			return;
+		}
 
 		usersData.usernameAvailable(username)
 			.then((usernameAvailable) => {
@@ -28,17 +34,17 @@ module.exports = function (passport) {
 										authenticate(passport, req, res)(req, res, next);
 									});
 								}).catch((e) => {
-									res.render("layouts/newAccount", { pageTitle: "Create a new account!", username: username, password: password, firstName: firstName, lastName: lastName, email: email, phoneNum: phoneNum, zipCode: zipCode, error: e });
+									res.render("layouts/newAccount", { pageTitle: "Create a new account!", username: username, password: password, password2: password2, firstName: firstName, lastName: lastName, email: email, phoneNum: phoneNum, zipCode: zipCode, error: e });
 									return;
 								});
 							}
 							else {
-								return res.render("layouts/newAccount", { pageTitle: "Create a new account!", username: username, password: password, firstName: firstName, lastName: lastName, email: email, phoneNum: phoneNum, zipCode: zipCode, error: "Email already in use" });
+								return res.render("layouts/newAccount", { pageTitle: "Create a new account!", username: username, password: password, password2: password2, firstName: firstName, lastName: lastName, email: email, phoneNum: phoneNum, zipCode: zipCode, error: "Email already in use" });
 							}
 						})
 				}
 				else {
-					return res.render("layouts/newAccount", { pageTitle: "Create a new account!", username: username, password: password, firstName: firstName, lastName: lastName, email: email, phoneNum: phoneNum, zipCode: zipCode, error: "Username already exists" });
+					return res.render("layouts/newAccount", { pageTitle: "Create a new account!", username: username, password: password, password2: password2, firstName: firstName, lastName: lastName, email: email, phoneNum: phoneNum, zipCode: zipCode, error: "Username already exists" });
 				}
 			})
 	});
