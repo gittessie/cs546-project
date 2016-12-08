@@ -6,6 +6,7 @@
         		{{> item_item }}
         	{{/each}}
         {{else if itemProfile}}
+            <img src="{{itemProfile.imagePath}}">
         	<p>Posted by {{itemProfile.userProfile.username}}</p>
             <p>Categories: 
                 {{#each itemProfile.categories}}
@@ -15,7 +16,7 @@
             <p>
                 Minimum Days: {{itemProfile.time.minDays}} </p>
             <p> Maximum Days: {{itemProfile.time.maxDays}} </p>
-            <p> Zip Code: {{itemProfile.zipnode }} </p>
+            <p> Zip Code: {{itemProfile.zip }} </p>
             <p>
                 Status: {{itemProfile.status}}
             </p>
