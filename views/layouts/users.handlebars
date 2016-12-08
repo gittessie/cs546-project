@@ -1,12 +1,12 @@
 <div class="row">
-    <div class="col-sm-12 col-md-6"> 
+    <div class="col-sm-12 col-md-6">
         <h2>{{ pageTitle }}</h2>
         {{#if usersArray}}
-        	{{#each usersArray}}      
+        	{{#each usersArray}}
         		{{> user_item }}
         	{{/each}}
         	<br>
-        	<input type="button" onclick="location.href='/newaccount';" value="New Account" />
+        	<input type="button" onclick="location.href='/account/new';" value="New Account" />
         {{else if profile}}
         	<p>First Name: {{profile.firstName}}</p>
         	<p>Last Name: {{profile.lastName}}</p>
