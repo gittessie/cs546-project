@@ -47,4 +47,4 @@ jspm_packages
 .yarn-integrity
 
 # uploads directory
-public/uploads/*
+public/uploads/!.gitkeep
