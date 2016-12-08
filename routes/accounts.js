@@ -55,6 +55,24 @@ module.exports = function (passport) {
 		req.logout();
 		res.redirect('/');
 	})
+
+	//my account link
+	router.get("/myaccount/", (req, res) => {
+		if(req.user){
+				// user is logged in, display account
+				// get user profile info
+				usersData.getUserByUsername(req.user.userProfile.username).then((thisUser) => {
+					res.render("layouts/account", { pageTitle: req.user.userProfile.username + "'s Account", profile: thisUser.userProfile, id:req.user._id });
+				}).catch((e) => {
+					res.status(500).json({ error: e });
+				});
+
+		}else{
+				// user is not logged in, redirect to login page
+				res.redirect("/account/login")
+		}
+	})
+
 	return router;
 }
 
