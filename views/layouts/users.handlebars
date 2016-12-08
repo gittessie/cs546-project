@@ -15,6 +15,7 @@
         	<p>Zip Code: {{profile.zip}}</p>
             <p>ID: {{profile._id}}</p>
         	<br>
+          <input type="button" onclick="location.href='/users/username/{{profile.username}}/items';" value="View {{profile.username}}'s items" />
         	<input type="button" onclick="location.href='/users';" value="List of All Users" />
         {{else if itemsArray}}
         	{{#each itemsArray}}
