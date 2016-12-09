@@ -9,8 +9,11 @@ main {
     margin: auto;
 }
 
-header {
-    border-bottom: 1px solid #AFAFAF;
+
+header{
+    background-color: #333;
+    text-align: center;
+    min-width: 800px;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -56,6 +59,7 @@ p {
 nav{
     background-color: #333;
     text-align: center;
+    min-width: 800px;
 }
 
 ul {
@@ -80,79 +84,24 @@ li a, .dropbtn {
 }
 
 li a:hover, .dropdown:hover .dropbtn {
-    background-color: #555;
-}
-/*
-li.dropdown {
-    display: inline-block;
+    background-color: #fff;
 }
 
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-}
-
-.dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    text-align: left;
-}
-
-.dropdown-content a:hover {
-    background-color: #f1f1f1;
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-*/
 
 
 
 /*NAV BAR STYLING*/
-#navAdvancedSearch{
-    float: left;
+#navSearchBar{
+    width:100%;
+    min-width: 250px;
 }
-#navAccounts{
+.navAccounts{
     float:right;
 }
-/*search*/
-#search {
-    width: 60%;
-    margin: 4px;
+.navItems{
+    float:left;
+    min-width: 500px;
 }
-#search_text{
-    width: 60%;
-    padding: 0px 0 0px 0px;
-    font-size: 16px;
-    font-family: Montserrat, sans-serif;
-    border: 0 none;
-    height: 40px;
-    margin-right: 0;
-    color: black;
-    outline: none;
-    background: #fff;
-    float: left;
-    box-sizing: border-box;
-    transition: all 0.15s;
-}
-
-#search_button {
-    border: 0 none;
-    background: #726d6d;
-    width: 60px;
-    float: left;
-    padding: 0;
-    text-align: center;
-    height: 40px;
-    cursor: pointer;
-}
-
 
 /*HOMEPAGE STYLING*/
 #LeftPanel{
