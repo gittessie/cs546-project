@@ -84,6 +84,51 @@ module.exports = function (passport) {
 		}
 	})
 
+	//edit account
+	router.get("/edit", (req, res) => {
+		if(req.user){
+				// user is logged in, display account
+				// get user profile info
+				usersData.getUserByUsername(req.user.userProfile.username).then((thisUser) => {
+					res.render("layouts/accountEdit", { pageTitle: "My Account", profile: thisUser.userProfile});
+				}).catch((e) => {
+					res.status(500).json({ error: e });
+				});
+
+		}else{
+				// user is not logged in, redirect to login page
+				res.redirect("/account/login")
+		}
+	})
+
+	router.post("/edit", (req, res, next) => {
+		let username = req.body.username;
+		let idNum = req.body.idNum;
+		let newFirstName = req.body.newFirstName;
+		let newLastName = req.body.newLastName;
+		let newEmail = req.body.newEmail;
+		let newPhoneNum = req.body.newPhoneNum;
+		let newZipCode = req.body.newZipCode;
+		let error;
+		if (!newFirstName || !newLastName || !newEmail || !newPhoneNum || !newZipCode){
+			error = "Please complete all fields";
+			res.render("account/edit", { pageTitle: "Update Profile", firstName: newFirstName, lastName: newLastName, email: newEmail, phoneNum: newPhoneNum, zipCode: newZipCode, error: error });
+			return;
+		}
+
+		let updatedProfile = {userProfile: {firstName: newFirstName, lastName: newLastName, email: newEmail, phone: newPhoneNum, zip: newZipCode}};
+		usersData.updateUserProfile(idNum, newFirstName, newLastName, newEmail, newZipCode, newPhoneNum).then((newUserProfile) => {
+				res.render("account/myaccount", { pageTitle: "My Account", profile: thisUser.userProfile });
+			}).catch((e) => {
+				res.redirect("/account/myaccount")
+			});
+	});
+
+
+
+
+
+
 	return router;
 }
 
