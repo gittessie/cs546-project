@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const data = require("../data");
 const usersData = data.users;
+const itemsData = data.items;
 
 module.exports = function (passport) {
 	router.get("/new", (req, res) => {
@@ -68,12 +69,16 @@ module.exports = function (passport) {
 	})
 
 	//my account link
-	router.get("/myaccount/", (req, res) => {
+	router.get("/myaccount", (req, res) => {
 		if(req.user){
 				// user is logged in, display account
 				// get user profile info
 				usersData.getUserByUsername(req.user.userProfile.username).then((thisUser) => {
-					res.render("layouts/account", { pageTitle: req.user.userProfile.username + "'s Account", profile: thisUser.userProfile, id:req.user._id });
+					let userProfileId = thisUser.userProfile._id;
+					itemsData.getItemsForUserProfileId(userProfileId).then((itemsArray) => {
+						res.render("layouts/account", { pageTitle: "My Account", itemsArray: itemsArray, id: req.user._id, profile: thisUser.userProfile});
+					});
+					//res.render("layouts/account", { pageTitle:  "My Account", profile: thisUser.userProfile, id:req.user._id });
 				}).catch((e) => {
 					res.status(500).json({ error: e });
 				});
@@ -123,11 +128,6 @@ module.exports = function (passport) {
 				res.redirect("/account/myaccount")
 			});
 	});
-
-
-
-
-
 
 	return router;
 }
