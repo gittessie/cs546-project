@@ -234,3 +234,9 @@ li.dropdown {
     margin: auto;
     padding-bottom: 25px;
 }
+
+/*ITEM DISPLAY PAGE STYLING*/
+.itemImage{
+    height: 150px;
+    width: 150px;
+}
