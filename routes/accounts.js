@@ -105,7 +105,7 @@ let authenticate = (passport, req, res) => {
 			if (err) {
 				return next(err);
 			}
-			return res.redirect("/users/username/" + user.userProfile.username);
+			return res.redirect("/account/myaccount");
 		})
 	})
 }
