@@ -17,7 +17,12 @@ module.exports = function (passport) {
 		let email = req.body.email;
 		let phoneNum = req.body.phoneNum;
 		let zipCode = req.body.zipCode;
-		
+		let error;
+		if (!username || !password || !password2 || !firstName || !lastName || !email || !phoneNum || !zipCode){
+			error = "Please complete all fields";
+			res.render("layouts/newAccount", { pageTitle: "Create a new account!", username: username, password: password, password2: password2, firstName: firstName, lastName: lastName, email: email, phoneNum: phoneNum, zipCode: zipCode, error: error });
+			return;
+		}
 		if (password2 !== password) {
             res.render("layouts/newAccount", { pageTitle: "Create a new account!", username: username, password: password, password2: password2, firstName: firstName, lastName: lastName, email: email, phoneNum: phoneNum, zipCode: zipCode, error: "Passwords do not match" });
 			return;
