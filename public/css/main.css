@@ -227,13 +227,19 @@ li.dropdown {
     margin: auto;
     padding-bottom: 25px;
 }
-
 /*REGISTRATION PAGE STYLING*/
 .registerPage{
     max-width: 500px;
     margin: auto;
     padding-bottom: 25px;
 }
+/*CREATE NEW ITEM PAGE STYLING*/
+.createNewItemDisplay{
+    max-width: 500px;
+    margin: auto;
+    padding-bottom: 25px;
+}
+
 
 /*ITEM DISPLAY PAGE STYLING*/
 .itemImage{
