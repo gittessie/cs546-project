@@ -29,11 +29,11 @@
           </div>
           <div class="form-group">
             <label for="phoneNum">Phone Number</label>
-            <input type="text" class="form-control" id="phoneNum" name="phoneNum" value="{{phoneNum}}" placeholder="###-###-####">
+            <input type="tel" pattern="^\d{3}-\d{3}-\d{4}$" required class="form-control" id="phoneNum" name="phoneNum" value="{{phoneNum}}" placeholder="###-###-####">
           </div>
           <div class="form-group">
-            <label for="zipCode">Zip Code</label>
-            <input type="text" class="form-control" id="zipCode" name="zipCode" value="{{zipCode}}" placeholder="Zip Code">
+            <label for="zipCode">5-Digit Zip Code</label>
+            <input type="text" pattern="[0-9]{5}" class="form-control" id="zipCode" name="zipCode" value="{{zipCode}}" placeholder="#####">
           </div>
           {{#if error }}
           <div class="form-group">
