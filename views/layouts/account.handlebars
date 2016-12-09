@@ -10,6 +10,8 @@
             <p>ID: {{profile._id}}</p>
         	<br>
         {{/if}}
+        <input type="button" onclick="location.href='/account/edit';" value="Edit" />
+        <h2>My Items</h2>
         <input type="button" onclick="location.href='/users/{{id}}/items';" value="My Items" />
         <input type="button" onclick="location.href='/items/new/{{id}}';" value="Add an Item" />
     </div>

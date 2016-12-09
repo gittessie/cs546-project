@@ -195,6 +195,59 @@ let exportedMethods = {
         })
     },
 
+    updateUserProfile(id, firstName, lastName, email, zip, phone) {
+        return users().then((userCollection) => {
+            return this.getUserByProfileId(id)
+                .then((user) => {
+                    let updatedUserData = { userProfile: {} };
+
+                    if (firstName) {
+                        updatedUserData.userProfile.firstName = firstName;
+                    }
+                    else {
+                        updatedUserData.userProfile.firstName = user.userProfile.firstName;
+                    }
+                    if (lastName) {
+                        updatedUserData.userProfile.lastName = lastName;
+                    }
+                    else {
+                        updatedUserData.userProfile.lastName = user.userProfile.lastName;
+                    }
+                    if (email) {
+                        updatedUserData.userProfile.email = email;
+                    }
+                    else {
+                        updatedUserData.userProfile.email = user.userProfile.email;
+                    }
+                    if (zip) {
+                        updatedUserData.userProfile.zip = zip;
+                    }
+                    else {
+                        updatedUserData.userProfile.zip = user.userProfile.zip;
+                    }
+                    if (phone) {
+                        updatedUserData.userProfile.phone = phone;
+                    }
+                    else {
+                        updatedUserData.userProfile.phone = user.userProfile.phone;
+                    }
+
+                    updatedUserData.userProfile._id = user.userProfile._id;
+                    updatedUserData.userProfile.username = user.userProfile.username;
+
+                    let updateCommand = {
+                        $set: updatedUserData
+                    }
+                    return userCollection.updateOne({
+                        _id: user._id
+                    }, updateCommand)
+                        .then((result) => {
+                            return this.getUserByProfileId(id);
+                        })
+                })
+        })
+    },
+
     updateUserPassword(id, newPassword) {
         return users().then((userCollection) => {
             return userCollection.updateOne({
