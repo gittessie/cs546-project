@@ -1,12 +1,9 @@
 <div class="row">
     <div class="col-sm-12 col-md-8">
-    	<h3><a href="/items/{{_id}}">{{ name }}</a> ({{status}})</h3>
-    	<p>Posted by {{userProfile.username}}</p>
-    	<p>Categories: 
-    		{{#each categories}}
-    			{{this}},
-    		{{/each}}
-    	</p>
-    	<p>Price: ${{price}}</p>
+    	<h3>{{ name }} ({{status}})</h3>
+        <a href="/items/{{_id}}">
+            <img src="{{imagePath}}" alt="{{name}}" class="itemImage">
+        </a>
+    	<h4>Price: ${{price}}</h4>
     </div>
 </div>
