@@ -5,34 +5,33 @@
     <meta charset="utf-8">
     <title>ihavethat</title>
     <link rel="stylesheet" href="/public/css/main.css">
+
 </head>
 
 <body>
-    <nav>
+    <header>
         <img src="/public/images/header.png" alt="I have that page header">
+    </header>
+
+    <nav>
         <ul class="nav">
-            <li id="home">
-                <a href="/"><img src="/public/images/logo.png" alt="I have that small logo"></a>
-            </li>
-            <!--<li id="Categories">
-                <a href="#">Categories</a>
-                <ul class="subnav">
-                    <li><a href="#">Electronics</a></li>
-                    <li><a href="#">Home Goods</a></li>
-                    <li><a href="#">Etc</a></li>
-                    <li><a href="#">Etc</a></li>
-                </ul>
-            </li>-->
-            <li id="search">
-                <form action="" method="get">
-                    <input type="text" name="keywords" id="search_text" placeholder="Search and Start Borrowing" />
-                    <input type="button" name="search_button" id="search_button" placeholder="Go"></a>
+            <div class="navItems">
+                <li id="home">
+                    <a href="/"><img src="/public/images/logo.png" alt="I have that small logo"></a>
+                </li>
+                <li>
+                <form class="navbar-form navbar-left" method="post" action="/items/advanced">
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="keywords" id="navSearchBar" placeholder="Search and Start Borrowing">
+                    </div>
+                    <button type="submit" class="btn btn-default">Go</button>
                 </form>
             </li>
-            <li id="navAdvancedSearch">
-                <a href="/items/advanced">Advanced Item Search</a>
-            </li>
-            <div id="navAccounts">
+                <li id="navAdvancedSearch">
+                    <a href="/items/advanced">Advanced Item Search</a>
+                </li>
+            </div>
+            <div class="navAccounts">
                 <li id="navBrowseUsers">
                     <a href="/users">Browse Users</a>
                 </li>
@@ -51,6 +50,7 @@
             </div>
         </ul>
     </nav>
+
     <main>
         {{{body}}}
     </main>
