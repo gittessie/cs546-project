@@ -47,7 +47,7 @@ jspm_packages
 .yarn-integrity
 
 # uploads directory
-public/uploads/
-!public/uploads/orgo.png
-!public/uploads/ricecooker.jpg
-!public/uploads/wiiu.png
+#public/uploads/
+#!public/uploads/orgo.png
+#!public/uploads/ricecooker.jpg
+#!public/uploads/wiiu.png
