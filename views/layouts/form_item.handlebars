@@ -26,7 +26,10 @@
           </div>
           <div class="form-group">
             <label for="paymentMethod">Payment Method</label>
-            <input type="text" class="form-control" id="paymentMethod" name="paymentMethod" value="{{payment}}" placeholder="Payment Method">
+            <select name="paymentMethod" class="form-control" id="paymentMethod">
+              <option value="cash">Cash</option>
+              <option value="check">Check</option>
+            </select>
           </div>
           <div class="form-group">
             <label for="zip">Zip Code</label>
