@@ -112,39 +112,15 @@ li.dropdown {
 }
 */
 
-/*drowpdown*/
-#options a{
-    border-left: 0 none;
-}
-#options>a {
-    background-image: url(triangle.png);
-    background-position: 85% center;
-    background-repeat: no-repeat;
-    padding-right: 42px;
-}
-.subnav {
-    visibility: hidden;
-    position: absolute;
-    top: 110%;
-    right: 0;
-    width: 200px;
-    height: auto;
-    opacity: 0;
-    transition: all 0.1s;
-    background: #232323;
-}
-.subnav li {
-    float: none;
-}
-.subnav li a {
-    border-bottom: 1px solid #2e2e2e;
-}
-#options:hover .subnav {
-    visibility: visible;
-    top: 100%;
-    opacity: 1;
-}
 
+
+/*NAV BAR STYLING*/
+#navAdvancedSearch{
+    float: left;
+}
+#navAccounts{
+    float:right;
+}
 /*search*/
 #search {
     width: 60%;

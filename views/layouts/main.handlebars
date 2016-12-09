@@ -29,15 +29,26 @@
                     <input type="button" name="search_button" id="search_button" placeholder="Go"></a>
                 </form>
             </li>
-            <li id="Advanced">
+            <li id="navAdvancedSearch">
                 <a href="/items/advanced">Advanced Item Search</a>
             </li>
-            <li id="Users">
-                <a href="/users">Browse Users</a>
-            </li>
-            <li id="Account">
-                <a href="/account/myaccount">My Account</a>
-            </li>
+            <div id="navAccounts">
+                <li id="navBrowseUsers">
+                    <a href="/users">Browse Users</a>
+                </li>
+                <li id="navMyAccount">
+                    <a href="/account/myaccount">My Account</a>
+                </li>
+                {{#if profile}}
+                  <li id="navLogIn">
+                      <a href="/account/logout">Logout</a>
+                  </li>
+                {{else}}
+                  <li id="navLogIn">
+                      <a href="/account/login">Login</a>
+                  </li>
+                {{/if}}
+            </div>
         </ul>
     </nav>
     <main>

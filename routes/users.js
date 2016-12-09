@@ -69,7 +69,7 @@ router.put("/:id", (req, res) => {
 	}).catch((e) => {
 		res.status(500).json({ error: "Unable to update user with id " + req.params.id });
 	});
-	
+
 });
 
 router.put("/username/:username", (req, res) => {
