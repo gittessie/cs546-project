@@ -497,13 +497,23 @@ router.post("/new/:userid", (req, res) => {
 	let price = parseInt(req.body.price);
 	let payment = req.body.paymentMethod;
 	let geo = req.body.zip;
-	let filename = "/public/uploads/" + req.file.filename;
+	let filename;
 	let time = {
 		minDays: parseInt(req.body.minDays),
 		maxDays: parseInt(req.body.maxDays)
 	};
 	let status = "available";
 
+	if(!req.file){
+		filename = "/public/uploads/defaultItemIcon.jpg";
+	}
+	else{
+		filename = "/public/uploads/" + req.file.filename;
+	}
+	if(!name || !categories || !description || !price || !payment || !geo || !time){
+		res.render("layouts/form_item", { pageTitle: "Create a new item!", name: name, categories: categories, description: description, price: price, payment: payment, zip: geo, minDays: time.minDays, maxDays: time.maxDays, error: "Please complete all fields" });
+		return;
+	}
 	usersData.getUserById(req.params.userid).then((thisUser) => {
 		let userProfile = thisUser.userProfile;
 		try {
