@@ -35,6 +35,9 @@
                 <li id="navBrowseUsers">
                     <a href="/users">Browse Users</a>
                 </li>
+                <li id="navFindUsers">
+                    <a href="/users/search">Find Users</a>
+                </li>
                 <li id="navMyAccount">
                     <a href="/account/myaccount">My Account</a>
                 </li>
@@ -42,6 +45,10 @@
                   <li id="navLogIn">
                       <a href="/account/logout">Logout</a>
                   </li>
+                {{else if user}}
+                    <li id="navLogIn">
+                        <a href="/account/logout">Logout</a>
+                    </li>
                 {{else}}
                   <li id="navLogIn">
                       <a href="/account/login">Login</a>

@@ -14,10 +14,43 @@ router.get("/", (req, res) => {
 			};
 			return a;
 		});
-		res.render("layouts/users", { pageTitle: "Lists of all Users", usersArray: idAndUsernameArray });
+		res.render("layouts/users", { pageTitle: "Users", usersArray: idAndUsernameArray, profile: req.body.userProfile }); //TODO need to figure out correct way to pass user profile???
 	}).catch((e) => {
 		res.status(500).json({ error: e });
 	});
+});
+
+router.get("/search", (req, res) => {
+	res.render("layouts/userSearch");
+});
+
+router.post('/search', function (req, res) {
+	const username = req.body.username;
+	const email = req.body.email;
+	localError = "";
+
+	if(!username && !email){
+		localError= "Please provide a search parameter."
+		res.render("layouts/userSearch", { username: username, email: email, error: localError });
+		return;
+	}
+	if(username){
+		usersData.getUserByUsername(username).then((thisUser) => {
+			res.render("layouts/users", { pageTitle: req.params.username + "'s Profile", profile: thisUser.userProfile });
+		}).catch((e) => {
+			//res.status(500).json({ error: e });
+			res.render("layouts/userSearch", { username: username, error: e+". Try searching for another user."  });
+		});
+	}
+	if(email){
+		usersData.getUserByEmail(email).then((thisUser) => {
+			res.render("layouts/users", { pageTitle: req.params.username + "'s Profile", profile: thisUser.userProfile });
+		}).catch((e) => {
+			//res.status(500).json({ error: e });
+			res.render("layouts/userSearch", { email: email, error: e +". Try searching for another user." });
+		});
+	}
+
 });
 
 router.get("/:id", (req, res) => {
