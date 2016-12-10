@@ -56,7 +56,12 @@ module.exports = function (passport) {
 	});
 
 	router.get("/login", (req, res) => {
-		return res.render("layouts/login", { pageTitle: "Login!" })
+		if(req.user){
+			res.redirect("/account/myaccount");
+		}
+		else{
+			return res.render("layouts/login", { pageTitle: "Login!" })
+		}
 	})
 
 	router.post("/login", (req, res, next) => {
@@ -121,12 +126,64 @@ module.exports = function (passport) {
 			return;
 		}
 
-		let updatedProfile = {userProfile: {firstName: newFirstName, lastName: newLastName, email: newEmail, phone: newPhoneNum, zip: newZipCode}};
+		//let updatedProfile = {userProfile: {firstName: newFirstName, lastName: newLastName, email: newEmail, phone: newPhoneNum, zip: newZipCode}};
 		usersData.updateUserProfile(idNum, newFirstName, newLastName, newEmail, newZipCode, newPhoneNum).then((newUserProfile) => {
 				res.render("account/myaccount", { pageTitle: "My Account", profile: thisUser.userProfile });
 			}).catch((e) => {
 				res.redirect("/account/myaccount")
 			});
+	});
+
+	//edit item
+	router.get("/editItem/:itemId", (req, res) => {
+		if(req.user){
+				// user is logged in
+				itemsData.getItemById(req.params.itemId).then((thisItem) => {
+					res.render("layouts/accountItemEdit", { pageTitle: thisItem.name, itemProfile: thisItem, passedId: req.params.itemId});
+					//res.status(500).json({ pageTitle: thisItem.name});
+				}).catch((e) => {
+					res.status(500).json({ error: e });
+				});
+
+		}else{
+				// user is not logged in, redirect to login page
+				res.redirect("/account/login")
+		}
+	})
+
+	router.post("/editItem/:itemId", (req, res, next) => {
+		let name = req.body.name;
+		let categories = req.body.categories.match(/[^,]+/g);
+		let description = req.body.description;
+		let price = parseInt(req.body.price);
+		let payment = req.body.paymentMethod;
+		let geo = req.body.zip;
+		let filename;
+		let time = {
+			minDays: parseInt(req.body.minDays),
+			maxDays: parseInt(req.body.maxDays)
+		};
+		let status = req.body.status;
+
+
+		if (!name || !categories || !description || !price || !payment || !geo || !time.minDays || !time.maxDays || !status){
+			error = "Please complete all fields";
+			//"account/editItem/"+req.params.itemId
+			res.redirect("account/editItem/"+req.params.itemId, { pageTitle: name, name: name, categories: categories, description: description, price: price, payment: payment, zip: geo, minDays: time.minDays, maxDays: time.maxDays, status: status, error: "Please complete all fields" });
+			return;
+		}
+
+		if(!req.file){
+			let updatedItem = req.body;
+			itemsData.updateItem(req.params.itemId, updatedItem).then((newItemProfile) => {
+				res.redirect("account/editItem/"+req.params.itemId, { pageTitle: newItemProfile.name, itemProfile: newItemProfile });
+			}).catch((e) => {
+				res.status(500).json({ error: e });
+			});
+		}
+		else{
+			filename = "/public/uploads/" + req.file.filename;
+		}
 	});
 
 	return router;
