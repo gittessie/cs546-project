@@ -3,6 +3,59 @@ const items = mongoCollections.items;
 const user = require('./users');
 const uuid = require('node-uuid');
 
+setInterval(function () {
+    exportedMethods.getAllItems()
+        .then((allItems) => {
+            let currDate = new Date();
+            currDate.setHours(0, 0, 0, 0);
+            let changeToUnavailable = []
+            let changeToAvailable = [];
+            for (let i = 0; i < allItems.length; i++) {
+                let available = true;
+                for (let j = 0; j < allItems[i].rentals.length; j++) {
+                    let start = new Date(allItems[i].rentals[j].start);
+                    let end = new Date(allItems[i].rentals[j].end);
+                    start.setHours(0, 0, 0, 0);
+                    end.setHours(0, 0, 0, 0);
+
+                    if (currDate >= start && currDate <= end && allItems[i].status.toLowerCase() == "available") {
+                        changeToUnavailable.push(allItems[i]._id);
+                        available = false;
+                        break;
+                    }
+                    else if (currDate >= start && currDate <= end) {
+                        available = false;
+                        break;
+                    }
+                }
+                if (available && allItems[i].status.toLowerCase() == "unavailable") {
+                    changeToAvailable.push(allItems[i]._id)
+                }
+                available = true;
+            }
+            setMultipleAvailable(changeToAvailable);
+            setMultipleUnavailable(changeToUnavailable);
+        })
+}, 5 * 1000)
+
+function setMultipleAvailable(idList) {
+    return items().then((itemsCollection) => {
+        itemsCollection.updateMany(
+            { _id: { "$in": idList } },
+            { "$set": { status: "available" } }
+        )
+    })
+}
+
+function setMultipleUnavailable(idList) {
+    return items().then((itemsCollection) => {
+        itemsCollection.updateMany(
+            { "_id": { "$in": idList } },
+            { "$set": { status: "unavailable" } }
+        )
+    })
+}
+
 let exportedMethods = {
     getAllItems() {
         return items().then((itemsCollection) => {
@@ -195,7 +248,7 @@ let exportedMethods = {
     },
 
     searchByKeyword(theString) {
-        if(!theString) return Promise.reject("No word specified");
+        if (!theString) return Promise.reject("No word specified");
         return items().then((itemsCollection) => {
             itemsCollection.createIndex({ description: "text" });
             return itemsCollection.find({ $text: { $search: theString } }).toArray();

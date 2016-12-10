@@ -553,8 +553,7 @@ router.delete("/:id", isAuthenticated, (req, res) => {
 			itemsData.deleteItem(req.params.id).then(() => {
 				res.status(200).json({ message: "Deleted", redirect: "/account/myaccount" });
 			}).catch((e) => {
-				let route = path.resolve(`static/500.html`);
-				res.status(500).sendFile(route);
+				res.status(500).json({ error: "Could not delete item" })
 			});
 		})
 });
