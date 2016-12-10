@@ -12,6 +12,15 @@ const xss = require('xss');
 
 let localError;
 
+let isAuthenticated = (req, res, next) => {
+	if (req.isAuthenticated()) {
+		return next();
+	}
+	else {
+		return res.redirect("/account/login");
+	}
+}
+
 router.get("/", (req, res) => {
 	localError = "";
 	itemsData.getAllItems().then((itemsArray) => {
@@ -336,12 +345,12 @@ router.get("/:id", (req, res) => {
 
 router.get("/:id/rent", (req, res) => {
 	itemsData.getItemById(req.params.id).then((thisItem) => {
-		if(thisItem.status == "unavailable") {
+		if (thisItem.status == "unavailable") {
 			localError = "Cannot rent this item. It is unavailable.";
 			res.redirect("/items/" + req.params.id);
 			return;
 		}
-		if(req.user) {
+		if (req.user) {
 			res.render("layouts/rental", { pageTitle: "Rent this item: " + thisItem.name + " from user " + thisItem.userProfile.username });
 		} else {
 			res.redirect("/account/login/");
@@ -365,7 +374,7 @@ router.post("/:id/rent", (req, res) => {
 			});
 		});
 	}).catch((e) => {
-		res.render("layouts/rental", { pageTitle: "Rent this item: " + thisItem.name + " from user " + thisItem.userProfile.username, error: e});
+		res.render("layouts/rental", { pageTitle: "Rent this item: " + thisItem.name + " from user " + thisItem.userProfile.username, error: e });
 	});
 });
 
@@ -486,12 +495,11 @@ router.get("/paymentMethod/:method", (req, res) => {
 	});
 });
 
-router.get("/new/:userid", (req, res) => {
-	localError = "";
+router.get("/new/item", isAuthenticated, (req, res) => {
 	res.render("layouts/form_item", { pageTitle: "Create a new item!" });
 });
 
-router.post("/new/:userid", (req, res) => {
+router.post("/new/item", isAuthenticated, (req, res) => {
 	let name = xss(req.body.name);
 	let categories = req.body.categories.match(/[^,]+/g);
 	let description = xss(req.body.description);
@@ -505,17 +513,17 @@ router.post("/new/:userid", (req, res) => {
 	};
 	let status = "available";
 
-	if(!req.file){
+	if (!req.file) {
 		filename = "/public/uploads/defaultItemIcon.jpg";
 	}
-	else{
+	else {
 		filename = "/public/uploads/" + req.file.filename;
 	}
-	if(!name || !categories || !description || !price || !payment || !geo || !time){
+	if (!name || !categories || !description || !price || !payment || !geo || !time) {
 		res.render("layouts/form_item", { pageTitle: "Create a new item!", name: name, categories: categories, description: description, price: price, payment: payment, zip: geo, minDays: time.minDays, maxDays: time.maxDays, error: "Please complete all fields" });
 		return;
 	}
-	usersData.getUserById(req.params.userid).then((thisUser) => {
+	usersData.getUserById(req.user._id).then((thisUser) => {
 		let userProfile = thisUser.userProfile;
 		try {
 			itemsData.addItem(userProfile, name, categories, description, price, payment, geo, filename, time, status).then((newItem) => {
@@ -539,12 +547,22 @@ router.put("/:userid/:id", (req, res) => {
 	});
 });
 
-router.delete("/:id", (req, res) => {
-	itemsData.deleteItem(req.params.id).then(() => {
-		res.sendStatus(200);
-	}).catch((e) => {
-		res.status(500).json({ error: e });
-	});
+router.delete("/:id", isAuthenticated, (req, res) => {
+	itemsData.getItemById(req.params.id)
+		.then((item) => {
+			if (item.userProfile._id != user.req.userProfile._id) {
+				let route = path.resolve(`static/401.html`);
+				res.status(401).sendFile(route);
+			}
+			else {
+				itemsData.deleteItem(req.params.id).then(() => {
+					res.redirect("/account/myaccount")
+				}).catch((e) => {
+					let route = path.resolve(`static/500.html`);
+					res.status(500).sendFile(route);
+				});
+			}
+		})
 });
 
 module.exports = router;

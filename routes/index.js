@@ -1,6 +1,7 @@
 const usersRoutes = require("./users");
 const itemsRoutes = require("./items");
 const data = require("../data");
+const path = require("path");
 
 const constructorMethod = (app, passport) => {
 	const accRoutes = require("./accounts")(passport);
@@ -13,7 +14,8 @@ const constructorMethod = (app, passport) => {
 	});
 
 	app.use("*", (req, res) => {
-		res.status(404).json({error: "Not found"});
+		let route = path.resolve(`static/404.html`);
+		res.status(404).sendFile(route);
 	});
 };
 

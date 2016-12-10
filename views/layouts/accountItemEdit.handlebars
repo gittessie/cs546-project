@@ -1,62 +1,63 @@
-<div class"createNewItemDisplay">
-    <h2>{{pageTitle}}</h2>
-    <img src="{{itemProfile.imagePath}}" alt="{{itemProfile.name}}" class="itemImage">
-    <br>
-    <div class="row">
-      <div class="col-sm-12">
-        <form class="form" method="post" enctype="multipart/form-data" action="/account/editItem/{{passedId}}">
-          <div class="form-group">
-            <label for="name">Item Name</label>
-            <input type="text" class="form-control" id="name" name="name" value="{{itemProfile.name}}" placeholder="Name">
-          </div>
-          <div class="form-group">
-            <label for="categories">Categories</label>
-            <input type="text" class="form-control" id="categories" name="categories" value="{{itemProfile.categories}}" placeholder="Categories">
-          </div>
-          <div class="form-group">
-            <label for="photo">Photo</label>
-            <input type="file" accept="image/*" name="itemImage">
-          </div>
-          <div class="form-group">
-            <label for="minDays">Minimum Days item must be lent out</label>
-            <input type="number" class="form-control" id="minDays" name="minDays" value="{{itemProfile.time.minDays}}" placeholder="0">
-          </div>
-          <div class="form-group">
-            <label for="maxDays">Maximum Days item must be lent out</label>
-            <input type="number" class="form-control" id="maxDays" name="maxDays" value="{{itemProfile.time.maxDays}}" placeholder="365">
-          </div>
-          <div class="form-group">
-            <label for="zip">Zip Code</label>
-            <input type="text" pattern="[0-9]{5}" class="form-control" id="zip" name="zip" value="{{itemProfile.zip}}" placeholder="#####">
-          </div>
-          <div class="form-group">
-            <label for="status">Status</label>
-            <input type="text" class="form-control" id="status" name="status" value="{{itemProfile.status}}" placeholder="Status">
-          </div>
-          <div class="form-group">
-            <label for="price">Price</label>
-            <input type="number" class="form-control" id="price" name="price" value="{{itemProfile.price}}" placeholder="###">
-          </div>
-          <div class="form-group">
-            <label for="paymentMethod">Payment Method</label>
-            <input type="text" class="form-control" id="paymentMethod" name="paymentMethod" value="{{itemProfile.paymentMethod}}" placeholder="Payment Method">
-          </div>
-          <div class="form-group">
-            <label for="description">Description</label>
-            <input type="text" class="form-control" id="description" name="description" value="{{itemProfile.description}}" placeholder="Description">
-          </div>
+<div class "createNewItemDisplay">
+  <h1>{{pageTitle}}</h1>
+  <img src="{{itemProfile.imagePath}}" alt="{{itemProfile.name}}" class="itemImage">
+  <br>
+  <div class="row">
+    <div class="col-sm-12">
+      <form class="form" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="name">Item Name</label>
+          <input type="text" class="form-control" id="name" name="name" value="{{itemProfile.name}}" placeholder="Name">
+        </div>
+        <div class="form-group">
+          <label for="categories">Categories</label>
+          <input type="text" class="form-control" id="categories" name="categories" value="{{itemProfile.categories}}" placeholder="Categories">
+        </div>
+        <div class="form-group">
+          <label for="itemImage">Photo</label>
+          <input type="file" accept="image/*" id="itemImage" name="itemImage">
+          <p>Only upload a new photo to replace to your current one!</p>
+        </div>
+        <div class="form-group">
+          <label for="minDays">Minimum Days item must be lent out</label>
+          <input type="text" class="form-control" id="minDays" name="minDays" value="{{itemProfile.time.minDays}}" placeholder="0">
+        </div>
+        <div class="form-group">
+          <label for="maxDays">Maximum Days item must be lent out</label>
+          <input type="text" class="form-control" id="maxDays" name="maxDays" value="{{itemProfile.time.maxDays}}" placeholder="365">
+        </div>
+        <div class="form-group">
+          <label for="zip">Zip Code</label>
+          <input type="text" pattern="[0-9]{5}" class="form-control" id="zip" name="zip" value="{{itemProfile.zip}}" placeholder="#####">
+        </div>
+        <div class="form-group">
+          <label for="status">Status</label>
+          <input type="text" class="form-control" id="status" name="status" value="{{itemProfile.status}}" placeholder="Status">
+        </div>
+        <div class="form-group">
+          <label for="price">Price</label>
+          <input type="text" class="form-control" id="price" name="price" value="{{itemProfile.price}}" placeholder="###">
+        </div>
+        <div class="form-group">
+          <label for="paymentMethod">Payment Method</label>
+          <input type="text" class="form-control" id="paymentMethod" name="paymentMethod" value="{{itemProfile.paymentMethod}}" placeholder="Payment Method">
+        </div>
+        <div class="form-group">
+          <label for="description">Description</label>
+          <input type="text" class="form-control" id="description" name="description" value="{{itemProfile.description}}" placeholder="Description">
+        </div>
 
-          {{#if error }}
-          <div class="form-group">
-            <div class="alert alert-danger">
-              {{ error }}
-            </div>
+        {{#if error }}
+        <div class="form-group">
+          <div class="alert alert-danger">
+            {{ error }}
           </div>
-          {{/if}}
-          <div class="form-group">
-            <button type="submit" class="btn btn-default">Update Item</button>
-          </div>
-        </form>
-      </div>
+        </div>
+        {{/if}}
+        <div class="form-group">
+          <button type="submit" class="btn btn-default">Update Item</button>
+        </div>
+      </form>
     </div>
+  </div>
 </div>
