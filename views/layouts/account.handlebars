@@ -12,7 +12,8 @@
         {{/if}}
         <button class="btn btn-default" onclick="location.href='/account/edit';">Edit My Profile</button>
 
-        <h2>My Items   <button class="btn btn-success" onclick="location.href='/items/new/{{id}}';"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Item</button></h2>
+        <h2>My Items</h2>
+        <button class="btn btn-primary" onclick="location.href='/items/new/item';"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Item</button>
         {{#if itemsArray}}
         	{{#each itemsArray}}
         		{{> item_itemAccount}}

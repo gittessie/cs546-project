@@ -4,6 +4,15 @@ const data = require("../data");
 const usersData = data.users;
 const itemsData = data.items;
 
+let isAuthenticated = (req, res, next) => {
+	if (req.isAuthenticated()) {
+		return next();
+	}
+	else {
+		return res.redirect("/account/login");
+	}
+}
+
 module.exports = function (passport) {
 	router.get("/new", (req, res) => {
 		res.render("layouts/newAccount", { pageTitle: "Create a new account!" });
@@ -19,13 +28,13 @@ module.exports = function (passport) {
 		let phoneNum = req.body.phoneNum;
 		let zipCode = req.body.zipCode;
 		let error;
-		if (!username || !password || !password2 || !firstName || !lastName || !email || !phoneNum || !zipCode){
+		if (!username || !password || !password2 || !firstName || !lastName || !email || !phoneNum || !zipCode) {
 			error = "Please complete all fields";
 			res.render("layouts/newAccount", { pageTitle: "Create a new account!", username: username, password: password, password2: password2, firstName: firstName, lastName: lastName, email: email, phoneNum: phoneNum, zipCode: zipCode, error: error });
 			return;
 		}
 		if (password2 !== password) {
-            res.render("layouts/newAccount", { pageTitle: "Create a new account!", username: username, password: password, password2: password2, firstName: firstName, lastName: lastName, email: email, phoneNum: phoneNum, zipCode: zipCode, error: "Passwords do not match" });
+			res.render("layouts/newAccount", { pageTitle: "Create a new account!", username: username, password: password, password2: password2, firstName: firstName, lastName: lastName, email: email, phoneNum: phoneNum, zipCode: zipCode, error: "Passwords do not match" });
 			return;
 		}
 
@@ -56,10 +65,10 @@ module.exports = function (passport) {
 	});
 
 	router.get("/login", (req, res) => {
-		if(req.user){
+		if (req.user) {
 			res.redirect("/account/myaccount");
 		}
-		else{
+		else {
 			return res.render("layouts/login", { pageTitle: "Login!" })
 		}
 	})
@@ -74,44 +83,29 @@ module.exports = function (passport) {
 	})
 
 	//my account link
-	router.get("/myaccount", (req, res) => {
-		if(req.user){
-				// user is logged in, display account
-				// get user profile info
-				usersData.getUserByUsername(req.user.userProfile.username).then((thisUser) => {
-					let userProfileId = thisUser.userProfile._id;
-					itemsData.getItemsForUserProfileId(userProfileId).then((itemsArray) => {
-						res.render("layouts/account", { pageTitle: "My Account", itemsArray: itemsArray, id: req.user._id, profile: thisUser.userProfile});
-					});
-					//res.render("layouts/account", { pageTitle:  "My Account", profile: thisUser.userProfile, id:req.user._id });
-				}).catch((e) => {
-					res.status(500).json({ error: e });
-				});
+	router.get("/myaccount", isAuthenticated, (req, res) => {
+		usersData.getUserByUsername(req.user.userProfile.username).then((thisUser) => {
+			let userProfileId = thisUser.userProfile._id;
+			itemsData.getItemsForUserProfileId(userProfileId).then((itemsArray) => {
+				res.render("layouts/account", { pageTitle: "My Account", itemsArray: itemsArray, id: req.user._id, profile: thisUser.userProfile });
+			});
+			//res.render("layouts/account", { pageTitle:  "My Account", profile: thisUser.userProfile, id:req.user._id });
+		}).catch((e) => {
+			res.status(500).json({ error: e });
+		});
 
-		}else{
-				// user is not logged in, redirect to login page
-				res.redirect("/account/login")
-		}
 	})
 
 	//edit account
-	router.get("/edit", (req, res) => {
-		if(req.user){
-				// user is logged in, display account
-				// get user profile info
-				usersData.getUserByUsername(req.user.userProfile.username).then((thisUser) => {
-					res.render("layouts/accountEdit", { pageTitle: "My Account", profile: thisUser.userProfile});
-				}).catch((e) => {
-					res.status(500).json({ error: e });
-				});
-
-		}else{
-				// user is not logged in, redirect to login page
-				res.redirect("/account/login")
-		}
+	router.get("/edit", isAuthenticated, (req, res) => {
+		usersData.getUserByUsername(req.user.userProfile.username).then((thisUser) => {
+			res.render("layouts/accountEdit", { pageTitle: "My Account", profile: thisUser.userProfile });
+		}).catch((e) => {
+			res.status(500).json({ error: e });
+		});
 	})
 
-	router.post("/edit", (req, res, next) => {
+	router.post("/edit", isAuthenticated, (req, res, next) => {
 		let username = req.body.username;
 		let idNum = req.body.idNum;
 		let newFirstName = req.body.newFirstName;
@@ -120,7 +114,7 @@ module.exports = function (passport) {
 		let newPhoneNum = req.body.newPhoneNum;
 		let newZipCode = req.body.newZipCode;
 		let error;
-		if (!newFirstName || !newLastName || !newEmail || !newPhoneNum || !newZipCode){
+		if (!newFirstName || !newLastName || !newEmail || !newPhoneNum || !newZipCode) {
 			error = "Please complete all fields";
 			res.render("account/edit", { pageTitle: "Update Profile", firstName: newFirstName, lastName: newLastName, email: newEmail, phoneNum: newPhoneNum, zipCode: newZipCode, error: error });
 			return;
@@ -128,62 +122,77 @@ module.exports = function (passport) {
 
 		//let updatedProfile = {userProfile: {firstName: newFirstName, lastName: newLastName, email: newEmail, phone: newPhoneNum, zip: newZipCode}};
 		usersData.updateUserProfile(idNum, newFirstName, newLastName, newEmail, newZipCode, newPhoneNum).then((newUserProfile) => {
-				res.render("account/myaccount", { pageTitle: "My Account", profile: thisUser.userProfile });
-			}).catch((e) => {
-				res.redirect("/account/myaccount")
-			});
+			res.render("account/myaccount", { pageTitle: "My Account", profile: thisUser.userProfile });
+		}).catch((e) => {
+			res.redirect("/account/myaccount")
+		});
 	});
 
 	//edit item
-	router.get("/editItem/:itemId", (req, res) => {
-		if(req.user){
-				// user is logged in
-				itemsData.getItemById(req.params.itemId).then((thisItem) => {
-					res.render("layouts/accountItemEdit", { pageTitle: thisItem.name, itemProfile: thisItem, passedId: req.params.itemId});
-					//res.status(500).json({ pageTitle: thisItem.name});
-				}).catch((e) => {
-					res.status(500).json({ error: e });
-				});
-
-		}else{
-				// user is not logged in, redirect to login page
-				res.redirect("/account/login")
-		}
+	router.get("/editItem/:itemId", isAuthenticated, (req, res) => {
+		itemsData.getItemById(req.params.itemId).then((thisItem) => {
+			if (thisItem.userProfile._id != req.user.userProfile._id) {
+				let route = path.resolve(`static/401.html`);
+				res.status(401).sendFile(route);
+			}
+			else {
+				res.render("layouts/accountItemEdit", { pageTitle: thisItem.name, itemProfile: thisItem, passedId: req.params.itemId });
+			}
+			//res.status(500).json({ pageTitle: thisItem.name});
+		}).catch((e) => {
+			let route = path.resolve(`static/404.html`);
+			res.status(404).sendFile(route);
+		});
 	})
 
-	router.post("/editItem/:itemId", (req, res, next) => {
-		let name = req.body.name;
-		let categories = req.body.categories.match(/[^,]+/g);
-		let description = req.body.description;
-		let price = parseInt(req.body.price);
-		let payment = req.body.paymentMethod;
-		let geo = req.body.zip;
-		let filename;
-		let time = {
-			minDays: parseInt(req.body.minDays),
-			maxDays: parseInt(req.body.maxDays)
-		};
-		let status = req.body.status;
+	router.post("/editItem/:itemId", isAuthenticated, (req, res, next) => {
+		itemsData.getItemById(req.params.itemId)
+			.then((thisItem) => {
+				let name = req.body.name;
+				let categories = req.body.categories.match(/[^,]+/g);
+				let description = req.body.description;
+				let price = parseFloat(req.body.price);
+				let payment = req.body.paymentMethod;
+				let zip = req.body.zip;
+				let filename;
+				let time = {
+					minDays: parseFloat(req.body.minDays),
+					maxDays: parseFloat(req.body.maxDays)
+				};
+				let status = req.body.status;
 
+				if (isNaN(price) || isNaN(time.minDays) || isNaN(time.maxDays)) {
+					res.render("layouts/accountItemEdit", { pageTitle: thisItem.name, itemProfile: thisItem, passedId: req.params.itemId, error: "Please complete all fields" });
+					return;
+				}
+				if (!name || !categories || !description || isNaN(price) || !payment || !zip || isNaN(time.minDays) || isNaN(time.maxDays) || !status) {
+					res.render("layouts/accountItemEdit", { pageTitle: thisItem.name, itemProfile: thisItem, passedId: req.params.itemId, error: "Please complete all fields" });
+					return;
+				}
 
-		if (!name || !categories || !description || !price || !payment || !geo || !time.minDays || !time.maxDays || !status){
-			error = "Please complete all fields";
-			//"account/editItem/"+req.params.itemId
-			res.redirect("account/editItem/"+req.params.itemId, { pageTitle: name, name: name, categories: categories, description: description, price: price, payment: payment, zip: geo, minDays: time.minDays, maxDays: time.maxDays, status: status, error: "Please complete all fields" });
-			return;
-		}
+				let updatedItem = {};
+				if (req.file) {
+					updatedItem.imagePath = "/public/uploads/" + req.file.filename;
+				}
+				updatedItem.name = name;
+				updatedItem.categories = categories;
+				updatedItem.description = description;
+				updatedItem.price = price;
+				updatedItem.payment = payment;
+				updatedItem.zip = zip;
+				updatedItem.time = time;
+				updatedItem.status = status;
 
-		if(!req.file){
-			let updatedItem = req.body;
-			itemsData.updateItem(req.params.itemId, updatedItem).then((newItemProfile) => {
-				res.redirect("account/editItem/"+req.params.itemId, { pageTitle: newItemProfile.name, itemProfile: newItemProfile });
-			}).catch((e) => {
-				res.status(500).json({ error: e });
-			});
-		}
-		else{
-			filename = "/public/uploads/" + req.file.filename;
-		}
+				itemsData.updateItem(req.params.itemId, updatedItem)
+					.then((newItemProfile) => {
+						res.render("layouts/accountItemEdit", { pageTitle: newItemProfile.name, itemProfile: newItemProfile });
+					}).catch((e) => {
+						res.status(500).json({ error: e });
+					})
+			})
+			.catch((e) => {
+				res.status(500).json({ error: e })
+			})
 	});
 
 	return router;

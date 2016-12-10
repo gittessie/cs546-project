@@ -112,6 +112,7 @@ let exportedMethods = {
                 updatedItemData.status = updatedItem.status;
             }
 
+
             let updateCommand = {
                 $set: updatedItemData
             }
