@@ -501,7 +501,8 @@ router.get("/new/item", isAuthenticated, (req, res) => {
 
 router.post("/new/item", isAuthenticated, (req, res) => {
 	let name = xss(req.body.name);
-	let categories = req.body.categories.match(/[^,]+/g);
+	//let categories = req.body.categories.match(/[^,]+/g);
+	let categories = req.body.category_list;
 	let description = xss(req.body.description);
 	let price = parseInt(req.body.price);
 	let payment = req.body.paymentMethod;
