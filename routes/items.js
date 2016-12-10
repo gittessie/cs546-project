@@ -343,7 +343,7 @@ router.get("/:id", (req, res) => {
 	});
 });
 
-router.get("/:id/rent", (req, res) => {
+router.get("/:id/rent", isAuthenticated, (req, res) => {
 	itemsData.getItemById(req.params.id).then((thisItem) => {
 		if (thisItem.status == "unavailable") {
 			localError = "Cannot rent this item. It is unavailable.";
@@ -351,7 +351,7 @@ router.get("/:id/rent", (req, res) => {
 			return;
 		}
 		if (req.user) {
-			res.render("layouts/rental", { pageTitle: "Rent this item: " + thisItem.name + " from user " + thisItem.userProfile.username });
+			res.render("layouts/rental", { pageTitle: "Rent this item: " + thisItem.name + " from user " + thisItem.userProfile.username, userId: req.user._id, itemId: req.params.id});
 		} else {
 			res.redirect("/account/login/");
 		}
@@ -360,21 +360,42 @@ router.get("/:id/rent", (req, res) => {
 	});
 });
 
-router.post("/:id/rent", (req, res) => {
-	let start = req.body.startDate;
-	let end = req.body.endDate;
+router.post("/:id/rent", isAuthenticated, (req, res) => {
+	let start = new Date(req.body.startDate);
+	let end = new Date(req.body.endDate);
+	let userId = req.body.userId
+	start.setHours(0, 0, 0, 0);
+	end.setHours(0, 0, 0, 0);
 	localError = "";
 
+	let current = new Date();
+	current.setHours(0,0,0,0);
+
+	if (start < current) {
+		return res.status(500).send("Please choose a date that is today, or later");
+	}
+
+	if (start > end) {
+		return res.status(500).send("Start date must come before end date")
+	}
+
 	itemsData.getItemById(req.params.id).then((thisItem) => {
-		usersData.getUserById(req.user._id).then((thisUser) => {
+		for (let i = 0; i < thisItem.rentals.length; i++) {
+			let itemStart = new Date(thisItem.rentals[i].start);
+			let itemEnd = new Date(thisItem.rentals[i].end);
+			itemStart.setHours(0, 0, 0, 0);
+			itemEnd.setHours(0, 0, 0, 0);
+			if ((start >= itemStart && start <= itemEnd) || (end >= itemStart && end <= itemEnd)) {
+				return res.status(500).send("Rental Already Exists -- choose a new window")
+			}
+		}
+		usersData.getUserById(userId).then((thisUser) => {
 			itemsData.addRental(req.params.id, thisUser.userProfile, start, end).then((newItem) => {
-				itemsData.updateItem(req.params.id, { "status": "unavailable" }).then((updatedItem) => {
-					res.redirect("/items/" + req.params.id);
-				});
+				return res.status(200).send("Rental Confirmed for " + req.body.startDate + " to " + req.body.endDate);
 			});
 		});
 	}).catch((e) => {
-		res.render("layouts/rental", { pageTitle: "Rent this item: " + thisItem.name + " from user " + thisItem.userProfile.username, error: e });
+		return res.status(500).send(e)
 	});
 });
 
