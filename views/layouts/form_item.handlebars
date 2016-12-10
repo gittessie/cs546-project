@@ -1,4 +1,4 @@
-<div class"createNewItemDisplay">
+<div class="createNewItemDisplay">
     <h2>{{pageTitle}}</h2>
     <br>
     <div class="row">
@@ -9,8 +9,26 @@
             <input type="text" class="form-control" id="name" name="name" value="{{name}}" placeholder="Name">
           </div>
           <div class="form-group">
-            <label for="categories">Categories</label>
-            <input type="text" class="form-control" id="categories" name="categories" value="{{categories}}" placeholder="Categories">
+            <label for="categories">Categories (select all that apply)</label><br/>
+            <!--<input type="text" class="form-control" id="categories" name="categories" value="{{categories}}" placeholder="Categories">-->
+            <label class="checkbox-inline"><input type="checkbox" value="appliances" id="categories" name="category_list[]">Appliances</label>
+            <label class="checkbox-inline"><input type="checkbox" value="arts_crafts" id="categories" name="category_list[]">Arts & Crafts</label>
+            <label class="checkbox-inline"><input type="checkbox" value="automotive" id="categories" name="category_list[]">Automotive</label>
+            <label class="checkbox-inline"><input type="checkbox" value="books" id="categories" name="category_list[]">Books</label>
+            <label class="checkbox-inline"><input type="checkbox" value="clothing" id="categories" name="category_list[]">Clothing</label>
+            <label class="checkbox-inline"><input type="checkbox" value="electronics" id="categories" name="category_list[]">Electronics</label>
+            <label class="checkbox-inline"><input type="checkbox" value="furniture" id="categories" name="category_list[]">Furniture</label>
+            <label class="checkbox-inline"><input type="checkbox" value="home" id="categories" name="category_list[]">Home</label>
+            <label class="checkbox-inline"><input type="checkbox" value="movies" id="categories" name="category_list[]">Movies</label>
+            <label class="checkbox-inline"><input type="checkbox" value="music" id="categories" name="category_list[]">Music</label>
+            <label class="checkbox-inline"><input type="checkbox" value="office" id="categories" name="category_list[]">Office</label>
+            <label class="checkbox-inline"><input type="checkbox" value="outdoors" id="categories" name="category_list[]">Outdoors</label>
+            <label class="checkbox-inline"><input type="checkbox" value="pets" id="categories" name="category_list[]">Pets</label>
+            <label class="checkbox-inline"><input type="checkbox" value="shoes" id="categories" name="category_list[]">Shoes</label>
+            <label class="checkbox-inline"><input type="checkbox" value="sports" id="categories" name="category_list[]">Sports</label>
+            <label class="checkbox-inline"><input type="checkbox" value="tools" id="categories" name="category_list[]">Tools</label>
+            <label class="checkbox-inline"><input type="checkbox" value="toys_games" id="categories" name="category_list[]">Toys & Games</label>
+            <label class="checkbox-inline"><input type="checkbox" value="video_games" id="categories" name="category_list[]">Video Games</label>
           </div>
           <div class="form-group">
             <label for="description">Description</label>
