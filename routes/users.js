@@ -63,7 +63,11 @@ router.get("/:id", (req, res) => {
 
 router.get("/username/:username", (req, res) => {
 	usersData.getUserByUsername(req.params.username).then((thisUser) => {
-		res.render("layouts/users", { pageTitle: req.params.username + "'s Profile", profile: thisUser.userProfile });
+		let userProfileId = thisUser.userProfile._id;
+		itemsData.getItemsForUserProfileId(userProfileId).then((itemsArray) => {
+			res.render("layouts/users", { pageTitle: req.params.username + "'s Profile", itemsArray: itemsArray, id: thisUser._id, profile: thisUser.userProfile });
+		});
+		//res.render("layouts/users", { pageTitle: req.params.username + "'s Profile", profile: thisUser.userProfile });
 	}).catch((e) => {
 		res.status(500).json({ error: e });
 	});

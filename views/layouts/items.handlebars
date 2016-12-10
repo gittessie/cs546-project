@@ -6,7 +6,7 @@
         		{{> item_item }}
         	{{/each}}
         {{else if itemProfile}}
-            <img src="{{itemProfile.imagePath}}" alt="{{itemProfile.name}}" class="itemImage">
+            <img src="{{itemProfile.imagePath}}" alt="{{itemProfile.name}} photo" class="itemImage">
         	<p>Posted by <a href="/users/username/{{itemProfile.userProfile.username}}">{{itemProfile.userProfile.username}}</a></p>
             <p>Categories:
                 {{#each itemProfile.categories}}
