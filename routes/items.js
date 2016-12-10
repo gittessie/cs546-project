@@ -550,18 +550,12 @@ router.put("/:userid/:id", (req, res) => {
 router.delete("/:id", isAuthenticated, (req, res) => {
 	itemsData.getItemById(req.params.id)
 		.then((item) => {
-			if (item.userProfile._id != user.req.userProfile._id) {
-				let route = path.resolve(`static/401.html`);
-				res.status(401).sendFile(route);
-			}
-			else {
-				itemsData.deleteItem(req.params.id).then(() => {
-					res.redirect("/account/myaccount")
-				}).catch((e) => {
-					let route = path.resolve(`static/500.html`);
-					res.status(500).sendFile(route);
-				});
-			}
+			itemsData.deleteItem(req.params.id).then(() => {
+				res.status(200).json({ message: "Deleted", redirect: "/account/myaccount" });
+			}).catch((e) => {
+				let route = path.resolve(`static/500.html`);
+				res.status(500).sendFile(route);
+			});
 		})
 });
 

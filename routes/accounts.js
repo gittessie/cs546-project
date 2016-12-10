@@ -160,6 +160,11 @@ module.exports = function (passport) {
 					maxDays: parseFloat(req.body.maxDays)
 				};
 				let status = req.body.status;
+
+				if (isNaN(price) || isNaN(time.minDays) || isNaN(time.maxDays)) {
+					res.render("layouts/accountItemEdit", { pageTitle: thisItem.name, itemProfile: thisItem, passedId: req.params.itemId, error: "Please complete all fields" });
+					return;
+				}
 				if (!name || !categories || !description || isNaN(price) || !payment || !zip || isNaN(time.minDays) || isNaN(time.maxDays) || !status) {
 					res.render("layouts/accountItemEdit", { pageTitle: thisItem.name, itemProfile: thisItem, passedId: req.params.itemId, error: "Please complete all fields" });
 					return;
