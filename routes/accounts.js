@@ -99,11 +99,27 @@ module.exports = function (passport) {
 	//edit account
 	router.get("/edit", isAuthenticated, (req, res) => {
 		usersData.getUserByUsername(req.user.userProfile.username).then((thisUser) => {
-			res.render("layouts/accountEdit", { pageTitle: "My Account", profile: thisUser.userProfile });
+			res.render("layouts/accountEdit", { pageTitle: "My Account", profile: thisUser.userProfile, userId: thisUser._id });
 		}).catch((e) => {
 			res.status(500).json({ error: e });
 		});
 	})
+
+	router.delete("/:id", isAuthenticated, (req, res) => {
+		usersData.getUserById(req.params.id)
+			.then((user) => {
+				usersData.deleteUser(user._id).then(() => {
+					itemsData.deleteAllForUser(user.userProfile._id)
+						.then((status) => {
+							req.logout();
+							res.status(200).json({ message: "Deleted", redirect: "/" });
+						})
+				}).catch((e) => {
+					console.log(e);
+					res.status(500).json({ error: e });
+				});
+			})
+	});
 
 	router.post("/edit", isAuthenticated, (req, res, next) => {
 		let username = req.body.username;

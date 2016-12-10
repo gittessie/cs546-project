@@ -253,6 +253,13 @@ let exportedMethods = {
             itemsCollection.createIndex({ description: "text" });
             return itemsCollection.find({ $text: { $search: theString } }).toArray();
         })
+    },
+
+    deleteAllForUser(userProfileId) {
+        if (!userProfileId) return Promise.reject("No userProfileId specified");
+        return items().then((itemsCollection) => {
+            return itemsCollection.deleteMany({"userProfile._id" : userProfileId});
+        })
     }
 }
 

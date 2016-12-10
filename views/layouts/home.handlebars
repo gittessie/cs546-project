@@ -1,8 +1,17 @@
 <div id="LeftPanel">
-    <h1>Welcome</h1>
-    <h4>
-        To begin borrowing and lending items with ihavethat.com, please <a href="/account/login">log in</a> or <a href="/account/new">register</a>.
-    </h4>
+    {{#if help}}
+    <div id="welcome">
+        <h1>Welcome</h1>
+        <h4>
+            To begin borrowing and lending items with ihavethat.com, please <a href="/account/login">log in</a> or <a href="/account/new">register</a>.
+        </h4>
+    </div>
+    {{/if}}
+    <div id="quick-links">
+        <h1>Quick Links</h1>
+        <a href="/items">All Items</a>
+        <a href="/users">All Users</a>
+    </div>
 </div>
 <div id="RightPanel">
     <h1>Browse Popular Categories</h1>
@@ -10,65 +19,58 @@
         <div class="popCatTableBody">
             <div class="popCatTableRow">
                 <div class="popCatTableCell">
-                    <a href = "/items/categories/electronics">
-                        <img src="/public/images/categoryIcons/electronics.png" alt="electronics" class= "catIcons">
+                    <a href="/items/categories/electronics">
+                        <img src="/public/images/categoryIcons/electronics.png" alt="electronics" class="catIcons">
                     </a>
-                    <br>
-                    Electronics
+                    <br> Electronics
                 </div>
                 <div class="popCatTableCell">
-                    <a href = "/items/categories/movies">
-                        <img src="/public/images/categoryIcons/movies.png" alt="movies" class= "catIcons">
+                    <a href="/items/categories/movies">
+                        <img src="/public/images/categoryIcons/movies.png" alt="movies" class="catIcons">
                     </a>
-                    <br>
-                    Movies
+                    <br> Movies
                 </div>
                 <div class="popCatTableCell">
-                    <a href = "/items/categories/tools">
-                        <img src="/public/images/categoryIcons/tools.png" alt="tools" class= "catIcons">
+                    <a href="/items/categories/tools">
+                        <img src="/public/images/categoryIcons/tools.png" alt="tools" class="catIcons">
                     </a>
-                    <br>
-                    Tools
+                    <br> Tools
                 </div>
                 <div class="popCatTableCell">
-                    <a href = "/items/categories/music">
-                        <img src="/public/images/categoryIcons/music.png" alt="music" class= "catIcons">
+                    <a href="/items/categories/music">
+                        <img src="/public/images/categoryIcons/music.png" alt="music" class="catIcons">
                     </a>
-                    <br>
-                    Music
+                    <br> Music
                 </div>
             </div>
 
             <div class="popCatTableRow">
                 <div class="popCatTableCell">
-                    <a href = "/items/categories/video_games">
-                        <img src="/public/images/categoryIcons/videoGames.png" alt="video games" class= "catIcons">
+                    <a href="/items/categories/video_games">
+                        <img src="/public/images/categoryIcons/videoGames.png" alt="video games" class="catIcons">
                     </a>
-                    <br>
-                    Video Games
+                    <br> Video Games
                 </div>
                 <div class="popCatTableCell">
-                    <a href = "/items/categories/appliances">
-                        <img src="/public/images/categoryIcons/appliances.png" alt="appliances" class= "catIcons">
+                    <a href="/items/categories/appliances">
+                        <img src="/public/images/categoryIcons/appliances.png" alt="appliances" class="catIcons">
                     </a>
-                    <br>
-                    Appliances
+                    <br> Appliances
                 </div>
                 <div class="popCatTableCell">
-                    <a href = "/items/categories/sports">
-                        <img src="/public/images/categoryIcons/sports.png" alt="sports" class= "catIcons">
+                    <a href="/items/categories/sports">
+                        <img src="/public/images/categoryIcons/sports.png" alt="sports" class="catIcons">
                     </a>
-                    <br>
-                    Sports
+                    <br> Sports
                 </div>
                 <div class="popCatTableCell">
-                    <a href = "/items/categories/clothing">
-                        <img src="/public/images/categoryIcons/clothing.png" alt="clothing" class= "catIcons">
+                    <a href="/items/categories/clothing">
+                        <img src="/public/images/categoryIcons/clothing.png" alt="clothing" class="catIcons">
                     </a>
-                    <br>
-                    Clothing
+                    <br> Clothing
                 </div>
             </div>
         </div>
-    </div><!--end of popCatTable-->
+    </div>
+    <!--end of popCatTable-->
 </div>

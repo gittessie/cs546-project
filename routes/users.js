@@ -4,9 +4,18 @@ const data = require("../data");
 const usersData = data.users;
 const itemsData = data.items;
 
+let isAuthenticated = (req, res, next) => {
+	if (req.isAuthenticated()) {
+		return next();
+	}
+	else {
+		return res.redirect("/account/login");
+	}
+}
+
 router.get("/", (req, res) => {
 	usersData.getAllUsers().then((usersArray) => {
-		let idAndUsernameArray = usersArray.map(function(thisUser) {
+		let idAndUsernameArray = usersArray.map(function (thisUser) {
 			let a = {
 				_id: thisUser._id,
 				password: thisUser.hashedPassword,
@@ -29,25 +38,25 @@ router.post('/search', function (req, res) {
 	const email = req.body.email;
 	localError = "";
 
-	if(!username && !email){
-		localError= "Please provide a search parameter."
+	if (!username && !email) {
+		localError = "Please provide a search parameter."
 		res.render("layouts/userSearch", { username: username, email: email, error: localError });
 		return;
 	}
-	if(username){
+	if (username) {
 		usersData.getUserByUsername(username).then((thisUser) => {
 			res.render("layouts/users", { pageTitle: req.params.username + "'s Profile", profile: thisUser.userProfile });
 		}).catch((e) => {
 			//res.status(500).json({ error: e });
-			res.render("layouts/userSearch", { username: username, error: e+". Try searching for another user."  });
+			res.render("layouts/userSearch", { username: username, error: e + ". Try searching for another user." });
 		});
 	}
-	if(email){
+	if (email) {
 		usersData.getUserByEmail(email).then((thisUser) => {
 			res.render("layouts/users", { pageTitle: req.params.username + "'s Profile", profile: thisUser.userProfile });
 		}).catch((e) => {
 			//res.status(500).json({ error: e });
-			res.render("layouts/userSearch", { email: email, error: e +". Try searching for another user." });
+			res.render("layouts/userSearch", { email: email, error: e + ". Try searching for another user." });
 		});
 	}
 
@@ -121,21 +130,13 @@ router.put("/username/:username", (req, res) => {
 	});
 });
 
-router.delete("/:id", (req, res) => {
-	usersData.deleteUser(req.params.id).then(() => {
-		res.sendStatus(200);
-	}).catch((e) => {
-		res.status(500).json({ error: e });
-	});
-});
-
 router.delete("/username/:username", (req, res) => {
 	usersData.getUserByUsername(req.params.username).then((thisUser) => {
 		usersData.deleteUser(thisUser._id).then(() => {
-			res.sendStatus(200);
+			res.Status(200).json({ message: "Deleted", redirect: "/" });
 		});
 	}).catch((e) => {
-		res.status(500).json({ error: e });
+		res.status(500).json({ error: "Could not delete user" });
 	});
 });
 
