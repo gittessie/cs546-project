@@ -8,6 +8,7 @@ const itemsData = data.items;
 const uuid = require('node-uuid');
 const fs = require('fs');
 const path = require('path');
+const xss = require('xss');
 
 let localError;
 
@@ -27,7 +28,7 @@ router.get('/advanced', (req, res) => {
 
 router.post('/advanced', function (req, res) {
 	//console.log(req.body);
-	const keywords = req.body.keywords;
+	const keywords = xss(req.body.keywords);
 	const category = req.body.category;
 	const minPrice = req.body.minPrice;
 	const maxPrice = req.body.maxPrice;
@@ -491,9 +492,9 @@ router.get("/new/:userid", (req, res) => {
 });
 
 router.post("/new/:userid", (req, res) => {
-	let name = req.body.name;
+	let name = xss(req.body.name);
 	let categories = req.body.categories.match(/[^,]+/g);
-	let description = req.body.description;
+	let description = xss(req.body.description);
 	let price = parseInt(req.body.price);
 	let payment = req.body.paymentMethod;
 	let geo = req.body.zip;
