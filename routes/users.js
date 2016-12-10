@@ -45,7 +45,7 @@ router.post('/search', function (req, res) {
 	}
 	if (username) {
 		usersData.getUserByUsername(username).then((thisUser) => {
-			res.render("layouts/users", { pageTitle: req.params.username + "'s Profile", profile: thisUser.userProfile });
+			res.render("layouts/users", { pageTitle: thisUser.userProfile.username + "'s Profile", profile: thisUser.userProfile });
 		}).catch((e) => {
 			//res.status(500).json({ error: e });
 			res.render("layouts/userSearch", { username: username, error: e + ". Try searching for another user." });
@@ -53,7 +53,7 @@ router.post('/search', function (req, res) {
 	}
 	if (email) {
 		usersData.getUserByEmail(email).then((thisUser) => {
-			res.render("layouts/users", { pageTitle: req.params.username + "'s Profile", profile: thisUser.userProfile });
+			res.render("layouts/users", { pageTitle: thisUser.userProfile.username + "'s Profile", profile: thisUser.userProfile });
 		}).catch((e) => {
 			//res.status(500).json({ error: e });
 			res.render("layouts/userSearch", { email: email, error: e + ". Try searching for another user." });

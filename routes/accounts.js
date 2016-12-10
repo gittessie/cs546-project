@@ -166,6 +166,7 @@ module.exports = function (passport) {
 			.then((thisItem) => {
 				let name = req.body.name;
 				let categories = req.body.categories.match(/[^,]+/g);
+				//let categories = req.body.category_list;
 				let description = req.body.description;
 				let price = parseFloat(req.body.price);
 				let payment = req.body.paymentMethod;

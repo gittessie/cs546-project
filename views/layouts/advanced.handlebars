@@ -2,8 +2,8 @@
 <h1 class="page-header">Advanced Item Search</h1>
 <form method="post" action="/items/advanced">
    <div class="form-group">
-    <label>Keywords</label>
-    <input type="text" class="form-control" placeholder="Keywords" name="keywords">
+    <label for="keywords">Keywords</label>
+    <input type="text" class="form-control" placeholder="Keywords" name="keywords" id="keywords">
   </div>
   <div class="form-group">
     <label for="category">Category</label>
@@ -30,9 +30,9 @@
     </select>
   </div>
    <div class="form-group">
-    <label>Price Range</label>
-    <input type="text" class="form-control" placeholder="Min Price" name="minPrice">
-    <input type="text" class="form-control" placeholder="Max Price" name="maxPrice">
+    <label for="price">Price Range</label>
+    <input type="text" class="form-control" placeholder="Min Price" name="minPrice" id="price">
+    <input type="text" class="form-control" placeholder="Max Price" name="maxPrice" id="price">
   </div>
   <div class="form-group">
     <label for="paymentmethod">Payment Method</label>
@@ -43,16 +43,16 @@
     </select>
   </div>
   <div class="form-group">
-    <label>Zip Code</label>
-    <input type="text" class="form-control" placeholder="Zip Code" name="zipcode">
+    <label for="zip">Zip Code</label>
+    <input type="text" class="form-control" placeholder="Zip Code" name="zipcode" id="zip">
   </div>
   <div class="form-group">
-    <label>Minimum Borrow Time (in Days)</label>
-    <input type="text" class="form-control" placeholder="Num Days" name="time">
+    <label for="time">Minimum Borrow Time (in Days)</label>
+    <input type="text" class="form-control" placeholder="Num Days" name="time" id="time">
   </div>
   <div class="form-group">
-    <label>Availability Status</label>
-    <input type="text" class="form-control" placeholder="Availability" name="availability">
+    <label for="status">Availability Status</label>
+    <input type="text" class="form-control" placeholder="Availability" name="availability" id="status">
   </div>
   <button type="submit" class="btn btn-default">Submit</button>
 </form>
