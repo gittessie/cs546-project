@@ -10,7 +10,10 @@ const constructorMethod = (app, passport) => {
 	app.use("/account", accRoutes);
 
 	app.get("/", (req, res) => {
-		res.render("layouts/home", {});
+		if (req.user) {
+			return res.render("layouts/home", {});
+		}
+		return res.render("layouts/home", {help: "Login help"});
 	});
 
 	app.use("*", (req, res) => {

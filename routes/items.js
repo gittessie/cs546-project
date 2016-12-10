@@ -361,9 +361,12 @@ router.get("/:id/rent", isAuthenticated, (req, res) => {
 });
 
 router.post("/:id/rent", isAuthenticated, (req, res) => {
-	let start = new Date(req.body.startDate);
-	let end = new Date(req.body.endDate);
+	let start = (req.body.startDate).split("-");
+	let end = (req.body.endDate).split("-");
 	let userId = req.body.userId
+
+	start = new Date(start[0], start[1] - 1, start[2])
+	end = new Date(end[0], end[1] - 1, end[2])
 	start.setHours(0, 0, 0, 0);
 	end.setHours(0, 0, 0, 0);
 	localError = "";

@@ -1,11 +1,13 @@
 <div id="LeftPanel">
-    <div class="welcome">
+    {{#if help}}
+    <div id="welcome">
         <h1>Welcome</h1>
         <h4>
             To begin borrowing and lending items with ihavethat.com, please <a href="/account/login">log in</a> or <a href="/account/new">register</a>.
         </h4>
     </div>
-    <div class="quickLinks">
+    {{/if}}
+    <div id="quick-links">
         <h1>Quick Links</h1>
         <a href="/items">All Items</a>
         <a href="/users">All Users</a>

@@ -172,15 +172,17 @@ nav li a:hover, .dropdown:hover .dropbtn {
     width: 150px;
 }
 
-.quickLinks {
-    margin-top: 50px;
-}
-
-.quickLinks h5 {
+/* Quick Links styling on home page */
+#quick-links h5 {
     font-size: 3em;
 }
 
-.quickLinks a {
+#quick-links a {
     display: block;
     font-size: 18px;
+}
+
+/* Welcome message styling */
+#welcome {
+    margin-bottom: 50px;
 }
