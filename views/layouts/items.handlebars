@@ -30,7 +30,7 @@
             {{#if itemProfile.rentals}}
                 <h3>Rented by:</h3>
                 {{#each itemProfile.rentals}}
-                    <p>{{this.userProfile.username}}, Time Period: {{this.start}} to {{this.end day="numeric" month="long" year="numeric"}}</p>
+                    <p>{{this.userProfile.username}}, Time Period: {{this.start}} to {{this.end}}</p>
                 {{/each}}
             {{/if}}
         	<br>
