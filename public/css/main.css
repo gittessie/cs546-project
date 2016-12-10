@@ -26,15 +26,15 @@ h1 {
 }
 
 h2 {
-    font-size: 1.75rem;
-}
-
-h3 {
     font-size: 1.5rem;
 }
 
-h4 {
+h3 {
     font-size: 1.25rem;
+}
+
+h4 {
+    font-size: 1.20rem;
 }
 
 h5 {
@@ -46,7 +46,7 @@ h6 {
 }
 
 p {
-    font-size: 1rem;
+    font-size: 1.25rem;
     line-height: 2;
 }
 
@@ -101,6 +101,10 @@ nav li a:hover, .dropdown:hover .dropbtn {
 .navItems{
     float:left;
     min-width: 500px;
+}
+label[for="navSearchBar"]
+{
+    display:none;
 }
 
 /*HOMEPAGE STYLING*/
@@ -165,11 +169,28 @@ nav li a:hover, .dropdown:hover .dropbtn {
     padding-bottom: 25px;
 }
 
+/*EDIT ACCOUNT PAGE*/
+.editAccountDisplay{
+    max-width: 500px;
+    margin: auto;
+    padding-bottom: 25px;
+}
+.btn-danger1{
+    color: #ffffff;
+    background-color: #d4423c;
+}
 
 /*ITEM DISPLAY PAGE STYLING*/
 .itemImage{
     height: 150px;
     width: 150px;
+}
+.screen-reader-text {
+    clip: rect(1px, 1px, 1px, 1px);
+    position: absolute !important;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
 }
 
 /* Quick Links styling on home page */

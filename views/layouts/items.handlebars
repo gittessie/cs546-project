@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-sm-12 col-md-6">
-        <h2>{{ pageTitle }}</h2>
+        <h1>{{ pageTitle }}</h1>
         {{#if itemsArray}}
         	{{#each itemsArray}}
         		{{> item_item }}
@@ -16,7 +16,7 @@
             <p>
                 Minimum Days: {{itemProfile.time.minDays}} </p>
             <p> Maximum Days: {{itemProfile.time.maxDays}} </p>
-            <p> Zip Code: <a href="/items/zip/{{itemProfile.zip}}">{{itemProfile.zip }}</a> </p>
+            <p> Zip Code: <a href="/items/zip/{{itemProfile.zip}}"><span class="screen-reader-text">Search other items with zip code </span>{{itemProfile.zip }}</a> </p>
             <p>
                 Status: {{itemProfile.status}}
             </p>
@@ -28,7 +28,7 @@
             <p>Description: {{itemProfile.description}}</p>
             <!-- <p>ID: {{itemProfile._id}}</p> -->
             {{#if itemProfile.rentals}}
-                <h3>Rented by:</h3>
+                <h2>Rented by:</h2>
                 {{#each itemProfile.rentals}}
                     <p>{{this.userProfile.username}}, Time Period: {{this.start}} to {{this.end}}</p>
                 {{/each}}
@@ -37,14 +37,14 @@
         	<input type="button" onclick="location.href='/items';" value="List of All Items" />
             <input type="button" onclick="location.href='/items/{{itemProfile._id}}/rent';" value="I Want to Rent This!" />
         {{else}}
-            <h3 style="color: red";> Sorry, no results found. </h3>
+            <h2 style="color: red";> Sorry, no results found. </h2>
         {{/if}}
         {{#if button}}
             <br>
             <input type="button" onclick="location.href='/items';" value="List of All Items" />
         {{/if}}
         {{#if error}}
-            <h4 style="color: red";>{{ error }} </h4>
+            <h3 style="color: red";>{{ error }} </h3>
         {{/if}}
     </div>
 </div>

@@ -22,7 +22,10 @@
                 <li>
                     <form class="navbar-form navbar-left" method="post" action="/items/advanced">
                         <div class="form-group">
-                            <input type="text" class="form-control" name="keywords" id="navSearchBar" placeholder="Search and Start Borrowing">
+                            <label for="navSearchBar">
+                                Search and Start Borrowing
+                            </label>
+                            <input type="text" class="form-control" name="keywords" id="navSearchBar"  placeholder="Search and Start Borrowing">
                         </div>
                         <button type="submit" class="btn btn-default">Go</button>
                     </form>
@@ -41,13 +44,13 @@
                 <li id="navMyAccount">
                     <a href="/account/myaccount">My Account</a>
                 </li>
-                {{#if req.user}}
+                {{#if help}}
                 <li id="navLogIn">
-                    <a href="/account/logout">Logout</a>
+                    <a href="/account/login">Login</a>
                 </li>
                 {{else}}
                 <li id="navLogIn">
-                    <a href="/account/login">Login</a>
+                    <a href="/account/logout">Logout</a>
                 </li>
                 {{/if}}
             </div>
