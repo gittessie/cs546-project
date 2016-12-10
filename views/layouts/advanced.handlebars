@@ -6,8 +6,27 @@
     <input type="text" class="form-control" placeholder="Keywords" name="keywords">
   </div>
   <div class="form-group">
-    <label>Category</label>
-    <input type="text" class="form-control" placeholder="Category" name="category">
+    <label for="category">Category</label>
+    <select name="category" class="form-control" id="category">
+      <option value="appliances">Appliances</option>
+      <option value="arts_crafts">Arts & Crafts</option>
+      <option value="automotive">Automotive</option>
+      <option value="books">Books</option>
+      <option value="clothing">Clothing</option>
+      <option value="electronics">Electronics</option>
+      <option value="furniture">Furniture</option>
+      <option value="home">Home</option>
+      <option value="movies">Movies</option>
+      <option value="music">Music</option>
+      <option value="office">Office</option>
+      <option value="outdoors">Outdoors</option>
+      <option value="pets">Pets</option>
+      <option value="shoes">Shoes</option>
+      <option value="sports">Sports</option>
+      <option value="tools">Tools</option>
+      <option value="toys_games">Toys & Games</option>
+      <option value="video_games">Video Games</option>
+    </select>
   </div>
    <div class="form-group">
     <label>Price Range</label>
@@ -15,8 +34,11 @@
     <input type="text" class="form-control" placeholder="Max Price" name="maxPrice">
   </div>
   <div class="form-group">
-    <label>Payment Method</label>
-    <input type="text" class="form-control" placeholder="Payment Method" name="paymentmethod">
+    <label for="paymentmethod">Payment Method</label>
+    <select name="paymentmethod" class="form-control" id="paymentmethod">
+      <option value="cash">Cash</option>
+      <option value="check">Check</option>
+    </select>
   </div>
   <div class="form-group">
     <label>Zip Code</label>
