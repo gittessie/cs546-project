@@ -1,48 +1,17 @@
 <div class="row" id="singleItem">
-    <!-- <div class="col-sm-12 col-md-6"> -->
         <h1>{{ pageTitle }}</h1>
-<<<<<<< HEAD
-<<<<<<< HEAD
         {{#if itemsArray}}
-        <div id="itemGrid">
-          <div class="grid">
-            {{#each itemsArray}}
-              <div class = "itemRow">
-                {{#each this }}
-                  <div class="itemCell">{{> item_item }}</div>
+          <div id="itemGrid">
+              <div class="grid">
+                {{#each itemsArray}}
+                  <div class = "itemRow">
+                    {{#each this }}
+                      <div class="itemCell">{{> item_item }}</div>
+                    {{/each}}
+                  </div>
                 {{/each}}
               </div>
-            {{/each}}
-          </div>
-        </div>
-        {{else if itemProfile}}
-            <img src="{{itemProfile.imagePath}}" alt="{{itemProfile.name}} photo" class="itemImage">
-        	<p>Posted by <a href="/users/username/{{itemProfile.userProfile.username}}">{{itemProfile.userProfile.username}}</a></p>
-            <p>Categories:
-                {{#each itemProfile.categories}}
-                    <a href="/items/categories/{{this}}">{{this}}</a>,
-                {{/each}}
-            </p>
-            <p>
-                Minimum Days: {{itemProfile.time.minDays}} </p>
-            <p> Maximum Days: {{itemProfile.time.maxDays}} </p>
-            <p> Zip Code: <a href="/items/zip/{{itemProfile.zip}}"><span class="screen-reader-text">Search other items with zip code </span>{{itemProfile.zip }}</a> </p>
-            <p>
-                Status: {{itemProfile.status}}
-            </p>
-            <p>
-                Price: ${{itemProfile.price}}</p>
-            <p>
-                Payment Method: {{itemProfile.paymentMethod}}
-            </p>
-            <p>Description: {{itemProfile.description}}</p>
-            <!-- <p>ID: {{itemProfile._id}}</p> -->
-            {{#if itemProfile.rentals}}
-                <h2>Rented by:</h2>
-=======
-=======
->>>>>>> origin/master
-        {{#if itemsArray}} {{#each itemsArray}} {{> item_item }} {{/each}} {{else if itemProfile}}
+            </div> {{else if itemProfile}}
         <img src="{{itemProfile.imagePath}}" alt="{{itemProfile.name}} photo" class="itemImage">
         <h2>Item Information</h2>
         <table class="table">
@@ -117,10 +86,6 @@
                 </tr>
             </thead>
             <tbody>
-<<<<<<< HEAD
->>>>>>> origin/master
-=======
->>>>>>> origin/master
                 {{#each itemProfile.rentals}}
                 <tr>
                     <td>
@@ -146,14 +111,4 @@
         <input type="button" onclick="location.href='/items';" value="List of All Items" /> {{/if}} {{#if error}}
         <h3 style="color: red" ;>{{ error }} </h3>
         {{/if}}
-<<<<<<< HEAD
-    <!-- </div> -->
 </div>
-=======
-    </div>
-<<<<<<< HEAD
-</div>
->>>>>>> origin/master
-=======
-</div>
->>>>>>> origin/master
