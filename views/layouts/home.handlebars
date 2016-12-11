@@ -10,6 +10,7 @@
         <a href="/items">All Items</a>
         <a href="/users">All Users</a>
     </div>
+
 </div>
 <div id="RightPanel">
     <h1>Browse Popular Categories</h1>
@@ -69,6 +70,21 @@
                 </div>
             </div>
         </div>
-    </div>
+
     <!--end of popCatTable-->
+</div>
+{{#if zip}}
+<div id="featured_items">
+  <h1> Item(s) Near You: {{ zip }}</h1>
+  <div class="grid">
+    {{#each itemsArray}}
+      <div class = "row">
+        {{#each this }}
+          <div class="cell">{{> item_item }}</div>
+        {{/each}}
+      </div>
+    {{/each}}
+  </div>
+</div>
+{{/if}}
 </div>
