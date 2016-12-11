@@ -260,6 +260,17 @@ let exportedMethods = {
         return items().then((itemsCollection) => {
             return itemsCollection.deleteMany({"userProfile._id" : userProfileId});
         })
+    },
+
+    transformToGrid ( arr ) {
+      var result = [], temp = [];
+      arr.forEach( function ( elem, i ) {
+          temp.push( elem );
+      });
+      if ( temp.length > 0 ) {
+          result.push( temp );
+      }
+      return result;
     }
 }
 

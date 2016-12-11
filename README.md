@@ -7,8 +7,13 @@ The course is taught by Professor Philip Barresi.
 * Node dependencies are handled by npm -- simply run `npm install` in the project directory, and the Node packages used in the project will be automatically installed.
 * Be sure that Mongodb is Running
 
-## Running
-Issue `npm start` in the project directory.
+## Steps to Run
+1. Run MongoDB on your machine.
+2. In Node.js command prompt, go to the project directory.
+3. Install node dependencies by running `npm install`.
+	* If you would like to prepopulate the site with accounts/item entries, run `npm run seed` before continuing to the next step.
+4. Start the application by running `npm start`.
+5. On your web browser, go to `http://localhost:3000/` to access the website.
 
 ## Contributors
 * Bryan Gardner
