@@ -65,7 +65,7 @@ nav{
 nav ul {
     list-style-type: none;
     margin: 0;
-    padding: 0;
+    padding: 5px;
     overflow: hidden;
     background-color: #333;
 }
@@ -80,11 +80,13 @@ nav li a, .dropbtn {
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-    font-size: 1rem;
+    font-size: 1.5rem;
+    border-radius: 4px;
 }
 
 nav li a:hover, .dropdown:hover .dropbtn {
     background-color: #fff;
+    border-radius: 4px;
 }
 
 
@@ -203,6 +205,19 @@ label[for="navSearchBar"]
 #rental{
     max-width: 500px;
     margin: auto;
+}
+
+/*USER PROFILE PAGE STYLING*/
+.user-profile, .user-items .row{
+  background-color: #F1F1F1;
+  border-radius: 4px;
+  padding: 10px;
+  padding-top: 0px;
+  margin-top: 10px;
+}
+
+.user-items .row {
+  border-top: 2px dotted;
 }
 
 /* Quick Links styling on home page */
