@@ -50,11 +50,6 @@ p {
     line-height: 2;
 }
 
-.post {
-    width: 75%;
-    border-bottom: 1px dashed #333;
-}
-
 /*Top Navigation Bar*/
 nav{
     background-color: #333;
@@ -74,7 +69,7 @@ nav li {
     float: left;
 }
 
-nav li a, .dropbtn {
+nav li a {
     display: inline-block;
     color: #f2f2f2;
     text-align: center;
@@ -84,7 +79,7 @@ nav li a, .dropbtn {
     border-radius: 4px;
 }
 
-nav li a:hover, .dropdown:hover .dropbtn {
+nav li a:hover {
     background-color: #fff;
     border-radius: 4px;
 }
