@@ -4,50 +4,47 @@
 <head>
     <meta charset="utf-8">
     <title>ihavethat</title>
-    <link rel="icon" type="image/png"  href="/public/images/logo.png">
+    <link rel="icon" type="image/png" href="/public/images/logo.png">
     <link rel="stylesheet" href="/public/css/main.css">
     <link rel="stylesheet" href="/public/css/print.css" type="text/css" media="print" />
 
 </head>
+
 <body>
     <header id="header">
         <img src="/public/images/header.png" alt="I have that page header">
     </header>
     <nav>
         <ul class="nav">
-            <div class="navItems">
-                <li>
-                    <a href="/"><img src="/public/images/logo.png" alt="I have that small logo" id="home"></a>
-                </li>
-                <li>
-                    <form class="navbar-form navbar-left" method="post" action="/items/advanced">
-                        <div class="form-group">
-                            <label for="navSearchBar">
+            <li class="navItems">
+                <a href="/"><img src="/public/images/logo.png" alt="I have that small logo" id="home"></a>
+            </li>
+            <li class="navItems">
+                <form class="navbar-form navbar-left navItems" method="post" action="/items/advanced">
+                    <div class="form-group">
+                        <label for="navSearchBar">
                                 Search and Start Borrowing
                             </label>
-                            <input type="text" class="form-control" name="keywords" id="navSearchBar"  placeholder="Search and Start Borrowing">
-                        </div>
-                        <button type="submit" class="btn btn-default">Go</button>
-                    </form>
-                </li>
-                <li>
-                    <a href="/items/advanced" id="navAdvancedSearch">Advanced Item Search</a>
-                </li>
-            </div>
-            <div class="navAccounts">
-                <li id="navBrowseUsers">
-                    <a href="/users">Browse Users</a>
-                </li>
-                <li id="navFindUsers">
-                    <a href="/users/search">Find Users</a>
-                </li>
-                <li id="navMyAccount">
-                    <a href="/account/myaccount">My Account</a>
-                </li>
-                <li id="navLogIn">
-                    <a href="/account/login">Login</a>
-                </li>
-            </div>
+                        <input type="text" class="form-control" name="keywords" id="navSearchBar" placeholder="Search and Start Borrowing">
+                    </div>
+                    <button type="submit" class="btn btn-default">Go</button>
+                </form>
+            </li>
+            <li class="navItems">
+                <a href="/items/advanced" id="navAdvancedSearch">Advanced Item Search</a>
+            </li>
+            <li class="navAccounts" id="navBrowseUsers">
+                <a href="/users">Browse Users</a>
+            </li>
+            <li class="navAccounts" id="navFindUsers">
+                <a href="/users/search">Find Users</a>
+            </li>
+            <li class="navAccounts" id="navMyAccount">
+                <a href="/account/myaccount">My Account</a>
+            </li>
+            <li class="navAccounts" id="navLogIn">
+                <a href="/account/login">Login</a>
+            </li>
         </ul>
     </nav>
     <main>
