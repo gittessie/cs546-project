@@ -220,15 +220,20 @@ label[for="navSearchBar"]
     margin-bottom: 50px;
 }
 
+/*Suggested items on homepage*/
 #itemGrid{
   width: 100%;
   height: 10%;
   padding: 20px;
   border: 2px dotted;
-  float: right;
+  float: left;
 }
 }
 .itemRow { overflow: auto; }
+
+.grid{
+    float: right;
+}
 
 .itemCell {
     width: 20%;
