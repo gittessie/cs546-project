@@ -164,7 +164,12 @@ label[for="navSearchBar"]
 }
 /*CREATE NEW ITEM PAGE STYLING*/
 .createNewItemDisplay{
-    max-width: 900px;
+    max-width: 850px;
+    margin: auto;
+    padding-bottom: 25px;
+}
+.editItemDisplay{
+    max-width: 500px;
     margin: auto;
     padding-bottom: 25px;
 }
@@ -191,6 +196,13 @@ label[for="navSearchBar"]
     height: 1px;
     width: 1px;
     overflow: hidden;
+}
+#singleItem{
+    padding-bottom: 25px;
+}
+#rental{
+    max-width: 500px;
+    margin: auto;
 }
 
 /* Quick Links styling on home page */
