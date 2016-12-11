@@ -1,10 +1,18 @@
 <div class="row" id="singleItem">
-    <div class="col-sm-12 col-md-6">
+    <!-- <div class="col-sm-12 col-md-6"> -->
         <h1>{{ pageTitle }}</h1>
         {{#if itemsArray}}
-        	{{#each itemsArray}}
-        		{{> item_item }}
-        	{{/each}}
+        <div id="itemGrid">
+          <div class="grid">
+            {{#each itemsArray}}
+              <div class = "itemRow">
+                {{#each this }}
+                  <div class="itemCell">{{> item_item }}</div>
+                {{/each}}
+              </div>
+            {{/each}}
+          </div>
+        </div>
         {{else if itemProfile}}
             <img src="{{itemProfile.imagePath}}" alt="{{itemProfile.name}} photo" class="itemImage">
         	<p>Posted by <a href="/users/username/{{itemProfile.userProfile.username}}">{{itemProfile.userProfile.username}}</a></p>
@@ -46,5 +54,5 @@
         {{#if error}}
             <h3 style="color: red";>{{ error }} </h3>
         {{/if}}
-    </div>
+    <!-- </div> -->
 </div>

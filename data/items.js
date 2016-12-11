@@ -265,10 +265,6 @@ let exportedMethods = {
     transformToGrid ( arr ) {
       var result = [], temp = [];
       arr.forEach( function ( elem, i ) {
-          if ( i > 0 && i % 5 === 0 ) {
-              result.push( temp );
-              temp = [];
-          }
           temp.push( elem );
       });
       if ( temp.length > 0 ) {

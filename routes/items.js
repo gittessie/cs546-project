@@ -24,6 +24,7 @@ let isAuthenticated = (req, res, next) => {
 router.get("/", (req, res) => {
 	localError = "";
 	itemsData.getAllItems().then((itemsArray) => {
+		itemsArray = itemsData.transformToGrid(itemsArray);
 		res.render("layouts/items", { pageTitle: "List of All Items", itemsArray: itemsArray });
 	}).catch((e) => {
 		res.status(500).json({ error: e });
@@ -47,7 +48,7 @@ router.post('/advanced', function (req, res) {
 	const availability = req.body.availability;
 	localError = "";
 
-	//advanced search with no fields filled in
+	//advanced with no fields filled in
 	if (!keywords && !category && !minPrice && !maxPrice && !payment && !zipcode && !time && !availability) {
 		res.redirect('/items');
 	} else
@@ -248,6 +249,7 @@ router.get("/advanced/results", (req, res) => {
 				itemsArray = resultsArray;
 				resultsArray = [];
 			}
+			itemsArray = itemsData.transformToGrid(itemsArray);
 			res.render("layouts/items", { pageTitle: "Showing Advanced Search Results", itemsArray: itemsArray, button: 1 });
 		}).catch((e) => {
 			res.status(500).json({ error: e });
@@ -328,6 +330,7 @@ router.get("/advanced/results", (req, res) => {
 				itemsArray = resultsArray;
 				resultsArray = [];
 			}
+			itemsArray = itemsData.transformToGrid(itemsArray);
 			res.render("layouts/items", { pageTitle: "Showing Advanced Search Results", itemsArray: itemsArray, button: 1 });
 		}).catch((e) => {
 			res.status(500).json({ error: e });
@@ -413,6 +416,7 @@ router.get("/categories/:category", (req, res) => {
 				}
 			}
 		}
+		newArray = itemsData.transformToGrid(newArray);
 		res.render("layouts/items", { pageTitle: "Showing items with category '" + req.params.category + "'", itemsArray: newArray, button: 1 });
 	}).catch((e) => {
 		res.status(500).json({ error: e });
@@ -428,6 +432,7 @@ router.get("/zip/:zip", (req, res) => {
 				newArray.push(itemsArray[x]);
 			}
 		}
+		newArray = itemsData.transformToGrid(newArray);
 		res.render("layouts/items", { pageTitle: "Showing items with zip code '" + req.params.zip + "'", itemsArray: newArray, button: 1 });
 	}).catch((e) => {
 		res.status(500).json({ error: e });
@@ -443,6 +448,7 @@ router.get("/time/:time", (req, res) => {
 				newArray.push(itemsArray[x]);
 			}
 		}
+		newArray = itemsData.transformToGrid(newArray);
 		res.render("layouts/items", { pageTitle: "Showing items that can be taken out at least " + req.params.time + " days", itemsArray: newArray, button: 1 });
 	}).catch((e) => {
 		res.status(500).json({ error: e });
@@ -455,6 +461,7 @@ router.get("/user/:userid", (req, res) => {
 	usersData.getUserById(req.params.userid).then((thisUser) => {
 		let userProfileId = thisUser.userProfile._id;
 		itemsData.getItemsForUserProfileId(userProfileId).then((itemsArray) => {
+			itemsArray = itemsData.transformToGrid(itemsArray);
 			res.render("layouts/items", { pageTitle: "Items posted by " + thisUser.userProfile.username, itemsArray: itemsArray, button: 1 });
 		});
 	}).catch((e) => {
@@ -467,6 +474,7 @@ router.get("/user/username/:username", (req, res) => {
 	usersData.getUserByUsername(req.params.username).then((thisUser) => {
 		let userProfileId = thisUser.userProfile._id;
 		itemsData.getItemsForUserProfileId(userProfileId).then((itemsArray) => {
+			itemsArray = itemsData.transformToGrid(itemsArray);
 			res.render("layouts/items", { pageTitle: "Items posted by " + req.params.username, itemsArray: itemsArray, button: 1 });
 		});
 	}).catch((e) => {
@@ -483,6 +491,7 @@ router.get("/status/:status", (req, res) => {
 				newArray.push(itemsArray[x]);
 			}
 		}
+		newArray = itemsData.transformToGrid(newArray);
 		res.render("layouts/items", { pageTitle: "Showing items with status '" + req.params.status + "'", itemsArray: newArray, button: 1 });
 	}).catch((e) => {
 		res.status(500).json({ error: e });
@@ -498,6 +507,7 @@ router.get("/price/:min/:max", (req, res) => {
 				newArray.push(itemsArray[x]);
 			}
 		}
+		newArray = itemsData.transformToGrid(newArray);
 		res.render("layouts/items", { pageTitle: "Showing items with price within [" + req.params.min + ", " + req.params.max + "]", itemsArray: newArray, button: 1 });
 	}).catch((e) => {
 		res.status(500).json({ error: e });
@@ -513,6 +523,7 @@ router.get("/paymentMethod/:method", (req, res) => {
 				newArray.push(itemsArray[x]);
 			}
 		}
+		newArray = itemsData.transformToGrid(newArray);
 		res.render("layouts/items", { pageTitle: "Showing items with payment Method '" + req.params.method + "'", itemsArray: newArray, button: 1 });
 	}).catch((e) => {
 		res.status(500).json({ error: e });
