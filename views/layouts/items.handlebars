@@ -1,114 +1,113 @@
 <div class="row" id="singleItem">
-    <div class="col-sm-12 col-md-6">
-        <h1>{{ pageTitle }}</h1>
-        {{#if itemsArray}} <div id="itemGrid">
-              <div class="grid">
-                {{#each itemsArray}}
-                  <div class = "itemRow">
-                    {{#each this }}
-                      <div class="itemCell">{{> item_item }}</div>
-                    {{/each}}
-                  </div>
+    <h1>{{ pageTitle }}</h1>
+    {{#if itemsArray}}
+    <div id="itemGrid">
+        <div class="grid">
+            {{#each itemsArray}}
+            <div class="itemRow">
+                {{#each this }}
+                <div class="itemCell">{{> item_item }}</div>
                 {{/each}}
-              </div>
-            </div>{{else if itemProfile}}
-        <img src="{{itemProfile.imagePath}}" alt="{{itemProfile.name}} photo" class="itemImage">
-        <h2>Item Information</h2>
-        <table class="table">
+            </div>
+            {{/each}}
+        </div>
+    </div>{{else if itemProfile}}
+    <img src="{{itemProfile.imagePath}}" alt="{{itemProfile.name}} photo" class="itemImage">
+    <h2>Item Information</h2>
+    <table class="table">
+        <tr>
+            <td>Description</td>
+            <td>{{itemProfile.description}}</td>
+        </tr>
+        <tr>
+            <td>Owner</td>
+            <td><a href="/users/username/{{itemProfile.userProfile.username}}">{{itemProfile.userProfile.username}}</a></td>
+        </tr>
+        <tr>
+            <td>Categories</td>
+            <td>
+                {{#each itemProfile.categories}}
+                <p><a href="/items/categories/{{this}}">{{this}}</a></p>
+                {{/each}}
+            </td>
+        </tr>
+        <tr>
+            <td>Minimum Days</td>
+            <td>{{itemProfile.time.minDays}}</td>
+        </tr>
+        <tr>
+            <td>Maximum Days</td>
+            <td>{{itemProfile.time.maxDays}}</td>
+        </tr>
+        <tr>
+            <td>Zip Code</td>
+            <td><a href="/items/zip/{{itemProfile.zip}}"><span class="screen-reader-text">Search other items with zip code </span>{{itemProfile.zip }}</a></td>
+        </tr>
+        <tr>
+            <td>Status</td>
+            <td>{{itemProfile.status}}</td>
+        </tr>
+        <tr>
+            <td>Price</td>
+            <td>${{itemProfile.price}}</td>
+        </tr>
+        <tr>
+            <td>Payment Method</td>
+            <td>{{itemProfile.paymentMethod}}</td>
+        </tr>
+    </table>
+    {{!--<img src="{{itemProfile.imagePath}}" alt="{{itemProfile.name}} photo" class="itemImage">
+    <p>Posted by <a href="/users/username/{{itemProfile.userProfile.username}}">{{itemProfile.userProfile.username}}</a></p>
+    <p>Categories: {{#each itemProfile.categories}}
+        <a href="/items/categories/{{this}}">{{this}}</a>, {{/each}}
+    </p>
+    <p>
+        Minimum Days: {{itemProfile.time.minDays}} </p>
+    <p> Maximum Days: {{itemProfile.time.maxDays}} </p>
+    <p> Zip Code: <a href="/items/zip/{{itemProfile.zip}}"><span class="screen-reader-text">Search other items with zip code </span>{{itemProfile.zip }}</a>        </p>
+    <p>
+        Status: {{itemProfile.status}}
+    </p>
+    <p>
+        Price: ${{itemProfile.price}}</p>
+    <p>
+        Payment Method: {{itemProfile.paymentMethod}}
+    </p>
+    <p>Description: {{itemProfile.description}}</p>
+    <!-- <p>ID: {{itemProfile._id}}</p> -->--}} {{#if itemProfile.rentals}}
+    <h2>Rentals</h2>
+    <table class="table">
+        <thead>
             <tr>
-                <td>Description</td>
-                <td>{{itemProfile.description}}</td>
+                <th>User</th>
+                <th>Start</th>
+                <th>End</th>
             </tr>
+        </thead>
+        <tbody>
+            {{#each itemProfile.rentals}}
             <tr>
-                <td>Owner</td>
-                <td><a href="/users/username/{{itemProfile.userProfile.username}}">{{itemProfile.userProfile.username}}</a></td>
-            </tr>
-            <tr>
-                <td>Categories</td>
                 <td>
-                    {{#each itemProfile.categories}}
-                    <p><a href="/items/categories/{{this}}">{{this}}</a></p>
-                    {{/each}}
+                    <a href="/users/username/{{this.userProfile.username}}">{{this.userProfile.username}}</a>
+                </td>
+                <td>
+                    {{this.start}}
+                </td>
+                <td>
+                    {{this.end}}
                 </td>
             </tr>
-            <tr>
-                <td>Minimum Days</td>
-                <td>{{itemProfile.time.minDays}}</td>
-            </tr>
-            <tr>
-                <td>Maximum Days</td>
-                <td>{{itemProfile.time.maxDays}}</td>
-            </tr>
-            <tr>
-                <td>Zip Code</td>
-                <td><a href="/items/zip/{{itemProfile.zip}}"><span class="screen-reader-text">Search other items with zip code </span>{{itemProfile.zip }}</a></td>
-            </tr>
-            <tr>
-                <td>Status</td>
-                <td>{{itemProfile.status}}</td>
-            </tr>
-            <tr>
-                <td>Price</td>
-                <td>${{itemProfile.price}}</td>
-            </tr>
-            <tr>
-                <td>Payment Method</td>
-                <td>{{itemProfile.paymentMethod}}</td>
-            </tr>
-        </table>
-        {{!--<img src="{{itemProfile.imagePath}}" alt="{{itemProfile.name}} photo" class="itemImage">
-        <p>Posted by <a href="/users/username/{{itemProfile.userProfile.username}}">{{itemProfile.userProfile.username}}</a></p>
-        <p>Categories: {{#each itemProfile.categories}}
-            <a href="/items/categories/{{this}}">{{this}}</a>, {{/each}}
-        </p>
-        <p>
-            Minimum Days: {{itemProfile.time.minDays}} </p>
-        <p> Maximum Days: {{itemProfile.time.maxDays}} </p>
-        <p> Zip Code: <a href="/items/zip/{{itemProfile.zip}}"><span class="screen-reader-text">Search other items with zip code </span>{{itemProfile.zip }}</a>            </p>
-        <p>
-            Status: {{itemProfile.status}}
-        </p>
-        <p>
-            Price: ${{itemProfile.price}}</p>
-        <p>
-            Payment Method: {{itemProfile.paymentMethod}}
-        </p>
-        <p>Description: {{itemProfile.description}}</p>
-        <!-- <p>ID: {{itemProfile._id}}</p> -->--}} {{#if itemProfile.rentals}}
-        <h2>Rentals</h2>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>User</th>
-                    <th>Start</th>
-                    <th>End</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each itemProfile.rentals}}
-                <tr>
-                    <td>
-                        <a href="/users/username/{{this.userProfile.username}}">{{this.userProfile.username}}</a>
-                    </td>
-                    <td>
-                        {{this.start}}
-                    </td>
-                    <td>
-                        {{this.end}}
-                    </td>
-                </tr>
-                {{/each}}
-            </tbody>
-        </table>
-        {{/if}}
-        <br>
-        <input type="button" onclick="location.href='/items';" value="List of All Items" />
-        <input type="button" onclick="location.href='/items/{{itemProfile._id}}/rent';" value="I Want to Rent This!" /> {{else}}
-        <h2 style="color: red" ;> Sorry, no results found. </h2>
-        {{/if}} {{#if button}}
-        <br>
-        <input type="button" onclick="location.href='/items';" value="List of All Items" /> {{/if}} {{#if error}}
-        <h3 style="color: red" ;>{{ error }} </h3>
-        {{/if}}
-    </div>
+            {{/each}}
+        </tbody>
+    </table>
+    {{/if}}
+    <br>
+    <input type="button" onclick="location.href='/items';" value="List of All Items" />
+    <input type="button" onclick="location.href='/items/{{itemProfile._id}}/rent';" value="I Want to Rent This!" /> {{else}}
+    <h2 style="color: red" ;> Sorry, no results found. </h2>
+    {{/if}} {{#if button}}
+    <br>
+    <input type="button" onclick="location.href='/items';" value="List of All Items" /> {{/if}} {{#if error}}
+    <h3 style="color: red" ;>{{ error }} </h3>
+    {{/if}}
 </div>
