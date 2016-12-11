@@ -1,9 +1,7 @@
 body {
     margin:0;
     padding:0;
-    line-height: 1.4em;
-    word-spacing:1px;
-    letter-spacing:0.2px;
+    line-height: 2em;
     font: 13px Georgia, serif;
     color: #000;
 }
@@ -11,6 +9,6 @@ body {
     display:none;
 }
 
-.advancedSearchDisplay, .loginPage, .registerPage, .row, .createNewItemDisplay, .editAccountDisplay, .col-sm-12 {
+.advancedSearchDisplay, .loginPage, .registerPage, .row, .createNewItemDisplay, .editAccountDisplay, .col-sm-12, .itemGrid{
   page-break-inside: avoid;
 }
