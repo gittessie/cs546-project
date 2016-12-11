@@ -97,7 +97,6 @@ nav li a:hover {
 }
 .navItems{
     float:left;
-    min-width: 500px;
 }
 label[for="navSearchBar"]
 {
