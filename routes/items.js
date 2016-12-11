@@ -337,6 +337,12 @@ router.get("/advanced/results", (req, res) => {
 
 router.get("/:id", (req, res) => {
 	itemsData.getItemById(req.params.id).then((thisItem) => {
+		for (let i = 0; i < thisItem.rentals.length; i++) {
+			let s = new Date(thisItem.rentals[i].start);
+			let e = new Date(thisItem.rentals[i].end);
+			thisItem.rentals[i].start = s.toDateString()
+			thisItem.rentals[i].end = e.toDateString()
+		}
 		res.render("layouts/items", { pageTitle: thisItem.name, itemProfile: thisItem, error: localError });
 	}).catch((e) => {
 		res.status(500).json({ error: e });
