@@ -22,7 +22,6 @@ const constructorMethod = (app, passport) => {
 							 	resultsArray.push(itemsArray[x]);
 							}
 						}
-						console.log("hit before trans");
 						resultsArray = itemData.transformToGrid(resultsArray);
 						res.render("layouts/home", {zip: zipCode, itemsArray: resultsArray});
 					//  itemsData.transformToGrid(resultsArray).then((temp) => {

@@ -28,7 +28,7 @@ dbConnection().then((db) => {
 		console.log("adding item to user allisonramos");
 		return users.getUserByUsername("allisonramos").then((thisUser) => {
 			let thisProfile = thisUser.userProfile;
-			return items.addItem(thisProfile, "Organic Chem Notes", ["school"], "Notes from my Orgo class", 20.00, "Cash", "07030", "/public/uploads/defaultitemIcon.png", { minDays: 1, maxDays: 21 }, "available");
+			return items.addItem(thisProfile, "Organic Chem Notes", ["school"], "Notes from my Orgo class", 20.00, "Cash", "07030", "/public/uploads/defaultItemIcon.jpg", { minDays: 1, maxDays: 21 }, "available");
 		});
 		}).then((db) => {
 		  console.log("adding user");
@@ -52,7 +52,7 @@ dbConnection().then((db) => {
 		}).then(() => {
 		  return users.getUserByUsername("kirkviss").then((thisUser) => {
 		    let thisProfile = thisUser.userProfile;
-		    return items.addItem(thisProfile, "TI-86 Graphing Calculator", ["school"], "Never used lol", 5.00, "Cash", "07030", "/public/uploads/graphingcalc.png", { minDays: 1, maxDays: 100 }, "available");
+		    return items.addItem(thisProfile, "TI-86 Graphing Calculator", ["school"], "Never used lol", 5.00, "Cash", "07030", "/public/uploads/defaultItemIcon.jpg", { minDays: 1, maxDays: 100 }, "available");
 			});
 	}).then(() => {
 		console.log("Done seeding database.");

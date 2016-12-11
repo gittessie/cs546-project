@@ -73,18 +73,18 @@
 
     <!--end of popCatTable-->
 </div>
+</div>
 {{#if zip}}
-<div id="featured_items">
+<div id="itemGrid">
   <h1> Item(s) Near You: {{ zip }}</h1>
   <div class="grid">
     {{#each itemsArray}}
-      <div class = "row">
+      <div class = "itemRow">
         {{#each this }}
-          <div class="cell">{{> item_item }}</div>
+          <div class="itemCell">{{> item_item }}</div>
         {{/each}}
       </div>
     {{/each}}
   </div>
 </div>
 {{/if}}
-</div>

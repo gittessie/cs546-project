@@ -263,12 +263,9 @@ let exportedMethods = {
     },
 
     transformToGrid ( arr ) {
-        console.log("Hiting before trans");
       var result = [], temp = [];
       arr.forEach( function ( elem, i ) {
-            console.log(elem.zip);
           if ( i > 0 && i % 5 === 0 ) {
-            console.log("Hiting after if");
               result.push( temp );
               temp = [];
           }
