@@ -1,4 +1,5 @@
 <div class="row" id="singleItem">
+<<<<<<< HEAD
         <h1>{{ pageTitle }}</h1>
         {{#if itemsArray}}
           <div id="itemGrid">
@@ -12,6 +13,11 @@
                 {{/each}}
               </div>
             </div> {{else if itemProfile}}
+=======
+    <div class="col-sm-12 col-md-6">
+        <h1>{{ pageTitle }}</h1>
+        {{#if itemsArray}} {{#each itemsArray}} {{> item_item }} {{/each}} {{else if itemProfile}}
+>>>>>>> origin/master
         <img src="{{itemProfile.imagePath}}" alt="{{itemProfile.name}} photo" class="itemImage">
         <h2>Item Information</h2>
         <table class="table">
@@ -111,4 +117,9 @@
         <input type="button" onclick="location.href='/items';" value="List of All Items" /> {{/if}} {{#if error}}
         <h3 style="color: red" ;>{{ error }} </h3>
         {{/if}}
+<<<<<<< HEAD
 </div>
+=======
+    </div>
+</div>
+>>>>>>> origin/master
